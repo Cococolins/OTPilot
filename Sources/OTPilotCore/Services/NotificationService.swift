@@ -13,8 +13,8 @@ public final class NotificationService: ObservableObject {
 
     public func showCopiedCode(_ detection: DetectedOTP) {
         let content = UNMutableNotificationContent()
-        content.title = "OTP copied"
-        content.body = "A verification code is ready to paste."
+        content.title = OTPilotLocalization.currentString(.notificationCopiedTitle)
+        content.body = OTPilotLocalization.currentString(.notificationCopiedBody)
         content.sound = .default
 
         let request = UNNotificationRequest(

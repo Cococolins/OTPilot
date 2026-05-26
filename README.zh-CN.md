@@ -43,10 +43,10 @@ security find-identity -v -p codesigning
 
 OTPilot 目前以源码形式分发，还不是一个经过 notarization 的 `.app` 安装包。
 
-1. 打开 [v1.2 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.2)。
-2. 下载 `OTPilot-v1.2-source.zip`。
+1. 打开 [v1.3 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.3)。
+2. 下载 `OTPilot-v1.3-source.zip`。
 3. 解压这个文件。
-4. 打开解压后的 `OTPilot-v1.2` 文件夹。
+4. 打开解压后的 `OTPilot-v1.3` 文件夹。
 5. 双击 `Install OTPilot.command`。
 
 如果 macOS 提示脚本无法打开，可以右键点击 `Install OTPilot.command`，选择 `Open`，再确认打开。这个安装脚本会自动打开 Terminal，构建 OTPilot，复制到 `/Applications/OTPilot.app`，然后启动应用。

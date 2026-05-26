@@ -4,6 +4,7 @@ import SwiftUI
 
 struct MenuBarRootView: View {
     @EnvironmentObject private var monitor: MessageMonitor
+    @EnvironmentObject private var languageStore: AppLanguageStore
     @Environment(\.openWindow) private var openWindow
 
     private enum Layout {
@@ -52,7 +53,7 @@ struct MenuBarRootView: View {
                         .font(.system(size: 10, weight: .semibold))
                         .foregroundStyle(monitor.state == .monitoring ? .green : .secondary)
 
-                    Text(monitor.state.label)
+                    Text(localizedStateLabel)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
@@ -66,7 +67,7 @@ struct MenuBarRootView: View {
                     .font(.system(.title3, design: .rounded).weight(.semibold))
                     .monospacedDigit()
                     .foregroundStyle(.primary)
-                    .accessibilityLabel("Detected codes")
+                    .accessibilityLabel(languageStore.string(.detectedCodes))
 
                 Text(AppVersion.displayVersion)
                     .font(.caption2)
@@ -84,26 +85,26 @@ struct MenuBarRootView: View {
                     Button {
                         monitor.state == .monitoring ? monitor.stop() : monitor.start()
                     } label: {
-                        Label(monitor.state == .monitoring ? "Stop" : "Start", systemImage: monitor.state == .monitoring ? "stop.fill" : "play.fill")
+                        Label(primaryActionTitle, systemImage: monitor.state == .monitoring ? "stop.fill" : "play.fill")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 2)
                     }
                     .buttonStyle(.borderedProminent)
-                    .help(monitor.state == .monitoring ? "Stop" : "Start")
-                    .accessibilityLabel(monitor.state == .monitoring ? "Stop" : "Start")
+                    .help(primaryActionTitle)
+                    .accessibilityLabel(primaryActionTitle)
                     .frame(width: Layout.actionButtonWidth)
 
                     Button {
                         monitor.resetCursorToNow()
                         monitor.resetStats()
                     } label: {
-                        Label("Reset", systemImage: "arrow.counterclockwise")
+                        Label(languageStore.string(.reset), systemImage: "arrow.counterclockwise")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 2)
                     }
                     .buttonStyle(.bordered)
-                    .help("Reset")
-                    .accessibilityLabel("Reset")
+                    .help(languageStore.string(.reset))
+                    .accessibilityLabel(languageStore.string(.reset))
                     .frame(width: Layout.actionButtonWidth)
                 }
             }
@@ -111,14 +112,14 @@ struct MenuBarRootView: View {
             .frame(maxWidth: .infinity)
 
             MenuToggleRow(
-                title: "Auto paste",
+                title: languageStore.string(.autoPaste),
                 systemImage: "keyboard",
                 isOn: $monitor.autoPasteEnabled
             )
-            .help(monitor.isAccessibilityTrustedForAutoPaste ? "Accessibility is enabled" : "Accessibility permission is missing")
+            .help(monitor.isAccessibilityTrustedForAutoPaste ? languageStore.string(.accessibilityEnabledHelp) : languageStore.string(.accessibilityMissingHelp))
 
             MenuToggleRow(
-                title: "Restore clipboard",
+                title: languageStore.string(.restoreClipboard),
                 systemImage: "clipboard",
                 isOn: $monitor.restoreClipboardEnabled
             )
@@ -130,30 +131,49 @@ struct MenuBarRootView: View {
             Button {
                 PermissionService.openFullDiskAccessSettings()
             } label: {
-                MenuRowLabel("Full Disk Access", systemImage: "externaldrive.badge.checkmark")
+                MenuRowLabel(languageStore.string(.fullDiskAccess), systemImage: "externaldrive.badge.checkmark")
             }
 
             Button {
                 PermissionService.openAccessibilitySettings()
                 monitor.requestAccessibilityPermission()
             } label: {
-                MenuRowLabel("Accessibility", systemImage: "hand.tap")
+                MenuRowLabel(languageStore.string(.accessibility), systemImage: "hand.tap")
             }
 
             Button {
                 openWindow(id: "settings")
                 NSApplication.shared.activate(ignoringOtherApps: true)
             } label: {
-                MenuRowLabel("Settings", systemImage: "gearshape")
+                MenuRowLabel(languageStore.string(.settings), systemImage: "gearshape")
             }
 
             Button(role: .destructive) {
                 NSApplication.shared.terminate(nil)
             } label: {
-                MenuRowLabel("Quit", systemImage: "power")
+                MenuRowLabel(languageStore.string(.quit), systemImage: "power")
             }
         }
         .buttonStyle(.plain)
+    }
+
+    private var primaryActionTitle: String {
+        languageStore.string(monitor.state == .monitoring ? .stop : .start)
+    }
+
+    private var localizedStateLabel: String {
+        switch monitor.state {
+        case .idle:
+            return languageStore.string(.idle)
+        case .monitoring:
+            return languageStore.string(.monitoring)
+        case .missingMessagesDatabase:
+            return languageStore.string(.messagesDatabaseNotFound)
+        case .fullDiskAccessRequired:
+            return languageStore.string(.fullDiskAccessRequired)
+        case .databaseError(let message):
+            return message
+        }
     }
 }
 
@@ -205,7 +225,7 @@ private struct MiniSwitchToggleStyle: ToggleStyle {
                 }
         }
         .buttonStyle(.plain)
-        .accessibilityValue(configuration.isOn ? "On" : "Off")
+        .accessibilityValue(OTPilotLocalization.currentString(configuration.isOn ? .enabled : .disabled))
     }
 }
 
@@ -266,13 +286,13 @@ private struct LastCodeView: View {
                     Image(systemName: "doc.on.doc")
                 }
                 .buttonStyle(.borderless)
-                .help("Copy")
+                .help(OTPilotLocalization.currentString(.copy))
             }
 
             HStack(spacing: 6) {
                 Image(systemName: "message")
                 Text(detection.sender)
-                Text("at \(OTPilotDateFormatting.detectionTime.string(from: detection.detectedAt))")
+                Text("\(OTPilotLocalization.currentString(.timePrefix)) \(OTPilotDateFormatting.detectionTime.string(from: detection.detectedAt))")
             }
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -288,9 +308,9 @@ private struct EmptyStateView: View {
                 .font(.title3)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("No code yet")
+                Text(OTPilotLocalization.currentString(.noCodeYet))
                     .font(.subheadline.weight(.medium))
-                Text("New SMS codes will appear here.")
+                Text(OTPilotLocalization.currentString(.noCodeSubtitle))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

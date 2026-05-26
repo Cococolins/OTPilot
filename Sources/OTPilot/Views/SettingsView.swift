@@ -3,42 +3,55 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var monitor: MessageMonitor
+    @EnvironmentObject private var languageStore: AppLanguageStore
     @State private var launchAtLoginEnabled = false
-    @State private var launchAtLoginStatus = "Unknown"
+    @State private var launchAtLoginStatus = LaunchAtLoginService.statusLabel
     @State private var launchAtLoginError: String?
 
     var body: some View {
         Form {
-            Section("Detection") {
-                Toggle("Start monitoring when OTPilot opens", isOn: $monitor.startMonitoringOnLaunch)
-                Toggle("Auto paste after copy", isOn: $monitor.autoPasteEnabled)
-                Toggle("Restore previous clipboard after 45 seconds", isOn: $monitor.restoreClipboardEnabled)
+            Section(languageStore.string(.detection)) {
+                Toggle(languageStore.string(.startMonitoringOnLaunch), isOn: $monitor.startMonitoringOnLaunch)
+                Toggle(languageStore.string(.autoPasteAfterCopy), isOn: $monitor.autoPasteEnabled)
+                Toggle(languageStore.string(.restoreClipboardAfterDelay), isOn: $monitor.restoreClipboardEnabled)
             }
 
-            Section("Startup") {
-                Toggle("Open OTPilot at login", isOn: Binding(
+            Section(languageStore.string(.startup)) {
+                Toggle(languageStore.string(.openAtLogin), isOn: Binding(
                     get: { launchAtLoginEnabled },
                     set: { updateLaunchAtLogin($0) }
                 ))
 
-                Text(launchAtLoginError ?? launchAtLoginStatus)
+                Text(launchAtLoginError ?? localizedLaunchAtLoginStatus)
                     .font(.caption)
                     .foregroundStyle(launchAtLoginStatusColor)
             }
 
-            Section("Permissions") {
-                Button("Open Full Disk Access") {
+            Section(languageStore.string(.language)) {
+                Picker(languageStore.string(.language), selection: Binding(
+                    get: { languageStore.selectedLanguage },
+                    set: { languageStore.selectedLanguage = $0 }
+                )) {
+                    ForEach(OTPilotLanguage.allCases) { language in
+                        Text(languageName(language))
+                            .tag(language)
+                    }
+                }
+            }
+
+            Section(languageStore.string(.permissions)) {
+                Button(languageStore.string(.openFullDiskAccess)) {
                     PermissionService.openFullDiskAccessSettings()
                 }
 
-                Button("Open Accessibility") {
+                Button(languageStore.string(.openAccessibility)) {
                     PermissionService.openAccessibilitySettings()
                     monitor.requestAccessibilityPermission()
                 }
             }
 
-            Section("About") {
-                LabeledContent("OTPilot by Cococolin", value: AppVersion.fullDisplayVersion)
+            Section(languageStore.string(.about)) {
+                LabeledContent("OTPilot by Cococolin", value: appVersionText)
             }
         }
         .formStyle(.grouped)
@@ -67,5 +80,40 @@ struct SettingsView: View {
 
     private var launchAtLoginStatusColor: Color {
         launchAtLoginError == nil ? .secondary : .red
+    }
+
+    private var appVersionText: String {
+        let prefix = languageStore.selectedLanguage.resolved == .simplifiedChinese ? "版本" : "Version"
+        if let buildNumber = AppVersion.buildNumber {
+            return "\(prefix) \(AppVersion.shortVersion) (\(buildNumber))"
+        }
+
+        return "\(prefix) \(AppVersion.shortVersion)"
+    }
+
+    private var localizedLaunchAtLoginStatus: String {
+        switch launchAtLoginStatus {
+        case "Enabled":
+            return languageStore.string(.enabled)
+        case "Disabled":
+            return languageStore.string(.disabled)
+        case "App bundle not found":
+            return languageStore.string(.appBundleNotFound)
+        case "Waiting for approval":
+            return languageStore.string(.waitingForApproval)
+        default:
+            return languageStore.string(.unknown)
+        }
+    }
+
+    private func languageName(_ language: OTPilotLanguage) -> String {
+        switch language {
+        case .system:
+            return languageStore.string(.languageSystem)
+        case .english:
+            return "English"
+        case .simplifiedChinese:
+            return "中文"
+        }
     }
 }

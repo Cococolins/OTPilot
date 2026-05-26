@@ -6,11 +6,13 @@ import SwiftUI
 struct OTPilotApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var monitor = MessageMonitor()
+    @StateObject private var languageStore = AppLanguageStore()
 
     var body: some Scene {
         MenuBarExtra {
             MenuBarRootView()
                 .environmentObject(monitor)
+                .environmentObject(languageStore)
                 .task {
                     monitor.startIfEnabledOnLaunch()
                 }
@@ -19,9 +21,10 @@ struct OTPilotApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        Window("OTPilot Settings", id: "settings") {
+        Window(languageStore.string(.settingsWindowTitle), id: "settings") {
             SettingsView()
                 .environmentObject(monitor)
+                .environmentObject(languageStore)
                 .frame(width: 520, height: 460)
         }
         .defaultSize(width: 520, height: 460)
