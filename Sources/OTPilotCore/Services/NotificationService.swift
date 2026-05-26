@@ -11,10 +11,10 @@ public final class NotificationService: ObservableObject {
         center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 
-    public func showDetectedCode(_ detection: DetectedOTP, autoPasted: Bool) {
+    public func showCopiedCode(_ detection: DetectedOTP) {
         let content = UNMutableNotificationContent()
-        content.title = autoPasted ? "OTP pasted" : "OTP copied"
-        content.body = "A verification code is ready."
+        content.title = "OTP copied"
+        content.body = "A verification code is ready to paste."
         content.sound = .default
 
         let request = UNNotificationRequest(

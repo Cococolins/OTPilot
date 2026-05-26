@@ -12,6 +12,7 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 - Copies detected codes to the clipboard.
 - Optional auto paste using Command-V.
 - Optional clipboard restore after 45 seconds.
+- Notification feedback when a code is copied and still needs to be pasted.
 - Optional launch at login.
 - Starts monitoring automatically when the app opens by default.
 
@@ -75,6 +76,8 @@ Posted Command-V event
 ```
 
 If the log says `Accessibility is not trusted`, remove any old OTPilot entry from System Settings, add `/Applications/OTPilot.app` again, and enable it.
+
+Notifications intentionally do not include the OTP or sender. OTPilot shows a notification when it copies a code and leaves pasting to you. When auto paste succeeds, it does not show a notification because the paste action itself is the feedback.
 
 ## Signing
 

@@ -18,20 +18,28 @@ public final class AutoPasteService: ObservableObject {
         AXIsProcessTrustedWithOptions(options)
     }
 
-    public func pasteIntoFocusedField() {
+    @discardableResult
+    public func pasteIntoFocusedField() -> Bool {
         guard isAccessibilityTrusted else {
             logger.warning("Auto paste skipped: Accessibility is not trusted")
-            return
+            return false
         }
 
         let source = CGEventSource(stateID: .hidSystemState)
-        let vDown = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true)
-        let vUp = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
-        vDown?.flags = .maskCommand
-        vUp?.flags = .maskCommand
+        guard
+            let vDown = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true),
+            let vUp = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: false)
+        else {
+            logger.warning("Auto paste skipped: failed to create keyboard events")
+            return false
+        }
 
-        vDown?.post(tap: .cghidEventTap)
-        vUp?.post(tap: .cghidEventTap)
+        vDown.flags = .maskCommand
+        vUp.flags = .maskCommand
+
+        vDown.post(tap: .cghidEventTap)
+        vUp.post(tap: .cghidEventTap)
         logger.info("Posted Command-V event")
+        return true
     }
 }

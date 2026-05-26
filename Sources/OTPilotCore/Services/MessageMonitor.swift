@@ -165,12 +165,10 @@ public final class MessageMonitor: ObservableObject {
         clipboard.copy(code, restorePreviousAfter: restoreClipboardEnabled ? 45 : nil)
         logger.info("Detected OTP rowID \(message.rowID, privacy: .public); autoPaste=\(self.autoPasteEnabled, privacy: .public); accessibilityTrusted=\(self.autoPaste.isAccessibilityTrusted, privacy: .public)")
 
-        let shouldAutoPaste = autoPasteEnabled
-        if shouldAutoPaste {
-            autoPaste.pasteIntoFocusedField()
+        let didAutoPaste = autoPasteEnabled && autoPaste.pasteIntoFocusedField()
+        if !didAutoPaste {
+            notifications.showCopiedCode(detection)
         }
-
-        notifications.showDetectedCode(detection, autoPasted: shouldAutoPaste)
     }
 
     private func state(for error: Error) -> MonitorState {
