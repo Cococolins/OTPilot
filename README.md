@@ -199,7 +199,7 @@ codesign -dv --verbose=4 /Applications/OTPilot.app 2>&1 | sed -n '1,90p'
 
 - [OTeePee](https://github.com/sushiselite/oteepee): macOS 15+ menu bar app that reads `~/Library/Messages/chat.db`, detects OTP patterns, and copies codes to the clipboard.
 - [imsg](https://github.com/openclaw/imsg): robust Messages database reader and watcher. Useful for understanding `chat.db`, filesystem events, and Full Disk Access behavior.
-- [Faktor](https://github.com/nate-parrott/faktor): browser-oriented OTP autofill system pairing a macOS app with a Chrome extension.
+- [Faktor](https://getfaktor.com/): browser-oriented OTP autofill system pairing a macOS app with a Chrome extension.
 - [XposedSmsCode](https://github.com/magisk317/XposedSmsCode), [smscode-core](https://github.com/magisk317/smscode-core), and [smscode-rules](https://github.com/magisk317/smscode-rules): useful references for Chinese SMS-code parsing rules.
 
 ## License
