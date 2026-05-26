@@ -50,11 +50,17 @@ struct MenuBarRootView: View {
 
             Spacer()
 
-            Text("\(monitor.detectedCount)")
-                .font(.system(.title3, design: .rounded).weight(.semibold))
-                .monospacedDigit()
-                .foregroundStyle(.primary)
-                .accessibilityLabel("Detected codes")
+            VStack(alignment: .trailing, spacing: 2) {
+                Text("\(monitor.detectedCount)")
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
+                    .monospacedDigit()
+                    .foregroundStyle(.primary)
+                    .accessibilityLabel("Detected codes")
+
+                Text(AppVersion.displayVersion)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 

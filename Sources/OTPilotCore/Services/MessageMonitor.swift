@@ -165,8 +165,8 @@ public final class MessageMonitor: ObservableObject {
         clipboard.copy(code, restorePreviousAfter: restoreClipboardEnabled ? 45 : nil)
         logger.info("Detected OTP rowID \(message.rowID, privacy: .public); autoPaste=\(self.autoPasteEnabled, privacy: .public); accessibilityTrusted=\(self.autoPaste.isAccessibilityTrusted, privacy: .public)")
 
-        let didAutoPaste = autoPasteEnabled && autoPaste.pasteIntoFocusedField()
-        if !didAutoPaste {
+        let pasteResult: AutoPasteService.PasteResult = autoPasteEnabled ? autoPaste.pasteIntoFocusedField(code) : .failed
+        if pasteResult.shouldShowCopiedNotification {
             notifications.showCopiedCode(detection)
         }
     }

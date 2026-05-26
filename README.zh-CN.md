@@ -93,7 +93,7 @@ OTPilot 需要 Full Disk Access 来读取：
 ~/Library/Messages/chat.db
 ```
 
-自动粘贴需要 Accessibility 权限，因为 OTPilot 会向当前聚焦的应用发送一次 Command-V 键盘事件。
+自动粘贴需要 Accessibility 权限。OTPilot 会用 Accessibility API 检查当前聚焦的 UI 元素是不是可编辑文本框；如果是，就发送 Command-V，让浏览器里的 paste 事件继续生效，包括 6 个独立小格的 OTP 输入框。如果没有可编辑文本框处于焦点中，OTPilot 会保留剪贴板里的验证码并发通知，而不是盲目发送 Command-V。
 
 如果自动粘贴不工作，可以检查日志：
 
@@ -108,9 +108,11 @@ Detected OTP ... autoPaste=true; accessibilityTrusted=true
 Posted Command-V event
 ```
 
+`Posted Command-V event` 代表 OTPilot 已经确认有可编辑文本框处于焦点中，并发送了键盘事件。macOS 仍然不会告诉 OTPilot 目标 app 是否真的接收并插入了内容。
+
 如果日志里出现 `Accessibility is not trusted`，可以在系统设置里移除旧的 OTPilot 权限记录，重新添加 `/Applications/OTPilot.app`，然后打开权限。
 
-通知不会显示验证码本身，也不会显示发件人。OTPilot 只会在「验证码已复制、需要你手动粘贴」时发通知；如果自动粘贴成功，就不会再发通知，因为粘贴动作本身已经是反馈。
+通知不会显示验证码本身，也不会显示发件人。OTPilot 只会在「验证码已复制、但没有找到可编辑焦点」时发通知；如果它已经向聚焦文本框发送 Command-V，就不会再发通知，因为粘贴动作本身已经是反馈。
 
 ## 签名
 
@@ -208,4 +210,4 @@ OTPilot 使用 [MIT License](LICENSE) 发布。
 
 OTPilot 首次启动时会从 Messages 当前最新的一行开始监听，所以不会扫描历史短信。之后如果想忽略旧消息，可以点击 `Skip Old` 把游标重置到当前最新消息。
 
-自动粘贴依赖当前焦点：验证码到达时，目标输入框必须已经处于聚焦状态。如果日志里已经出现检测和 Command-V 事件，但内容没有粘贴进去，下一步可以考虑加入基于 Accessibility API 的输入框直写 fallback。
+自动粘贴仍然依赖当前焦点：验证码到达时，目标输入框必须已经处于聚焦状态。OTPilot 现在可以在焦点明显不是可编辑文本框时避免盲目发送 Command-V，但它还不能自己判断网页上哪一个输入框才是正确目标。

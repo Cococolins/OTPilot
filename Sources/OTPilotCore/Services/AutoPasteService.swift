@@ -9,6 +9,22 @@ public final class AutoPasteService: ObservableObject {
 
     public init() {}
 
+    public enum PasteResult: Equatable {
+        case postedCommandV
+        case accessibilityNotTrusted
+        case noFocusedEditableElement
+        case failed
+
+        public var shouldShowCopiedNotification: Bool {
+            switch self {
+            case .postedCommandV:
+                return false
+            case .accessibilityNotTrusted, .noFocusedEditableElement, .failed:
+                return true
+            }
+        }
+    }
+
     public var isAccessibilityTrusted: Bool {
         AXIsProcessTrusted()
     }
@@ -18,13 +34,58 @@ public final class AutoPasteService: ObservableObject {
         AXIsProcessTrustedWithOptions(options)
     }
 
-    @discardableResult
-    public func pasteIntoFocusedField() -> Bool {
+    public func pasteIntoFocusedField(_ text: String) -> PasteResult {
         guard isAccessibilityTrusted else {
             logger.warning("Auto paste skipped: Accessibility is not trusted")
+            return .accessibilityNotTrusted
+        }
+
+        guard let focusedElement = focusedElementInFrontmostApplication() else {
+            logger.warning("Auto paste skipped: no focused UI element found")
+            return .noFocusedEditableElement
+        }
+
+        guard isEditableTextElement(focusedElement) else {
+            logger.warning("Auto paste skipped: focused UI element is not an editable text field")
+            return .noFocusedEditableElement
+        }
+
+        return postCommandV() ? .postedCommandV : .failed
+    }
+
+    private func focusedElementInFrontmostApplication() -> AXUIElement? {
+        guard let app = NSWorkspace.shared.frontmostApplication else {
+            return nil
+        }
+
+        let appElement = AXUIElementCreateApplication(app.processIdentifier)
+        var value: CFTypeRef?
+        let error = AXUIElementCopyAttributeValue(
+            appElement,
+            kAXFocusedUIElementAttribute as CFString,
+            &value
+        )
+
+        guard error == .success, let value, CFGetTypeID(value) == AXUIElementGetTypeID() else {
+            logger.warning("Failed to read focused UI element: \(String(describing: error), privacy: .public)")
+            return nil
+        }
+
+        return (value as! AXUIElement)
+    }
+
+    private func isEditableTextElement(_ element: AXUIElement) -> Bool {
+        guard isAttributeSettable(kAXValueAttribute, on: element) else {
             return false
         }
 
+        let role = stringAttribute(kAXRoleAttribute, from: element)
+        return role == (kAXTextFieldRole as String)
+            || role == (kAXTextAreaRole as String)
+            || role == (kAXComboBoxRole as String)
+    }
+
+    private func postCommandV() -> Bool {
         let source = CGEventSource(stateID: .hidSystemState)
         guard
             let vDown = CGEvent(keyboardEventSource: source, virtualKey: 0x09, keyDown: true),
@@ -41,5 +102,25 @@ public final class AutoPasteService: ObservableObject {
         vUp.post(tap: .cghidEventTap)
         logger.info("Posted Command-V event")
         return true
+    }
+
+    private func isAttributeSettable(_ attribute: String, on element: AXUIElement) -> Bool {
+        var settable = DarwinBoolean(false)
+        let error = AXUIElementIsAttributeSettable(element, attribute as CFString, &settable)
+        guard error == .success else {
+            return false
+        }
+
+        return settable.boolValue
+    }
+
+    private func stringAttribute(_ attribute: String, from element: AXUIElement) -> String? {
+        var value: CFTypeRef?
+        let error = AXUIElementCopyAttributeValue(element, attribute as CFString, &value)
+        guard error == .success else {
+            return nil
+        }
+
+        return value as? String
     }
 }

@@ -36,6 +36,10 @@ struct SettingsView: View {
                     monitor.requestAccessibilityPermission()
                 }
             }
+
+            Section("About") {
+                LabeledContent("OTPilot by Cococolin", value: AppVersion.fullDisplayVersion)
+            }
         }
         .formStyle(.grouped)
         .padding()

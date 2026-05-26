@@ -93,7 +93,7 @@ OTPilot needs Full Disk Access to read:
 ~/Library/Messages/chat.db
 ```
 
-Auto paste requires Accessibility permission because OTPilot sends a Command-V keyboard event to the currently focused app.
+Auto paste requires Accessibility permission. OTPilot uses the Accessibility API to check whether the currently focused UI element is an editable text field. If it is, OTPilot sends Command-V so browser paste handlers, including multi-box OTP fields, can still do their own splitting. If no editable field is focused, OTPilot leaves the code on the clipboard and shows a notification instead of blindly sending Command-V.
 
 If auto paste does not work, check:
 
@@ -108,9 +108,11 @@ Detected OTP ... autoPaste=true; accessibilityTrusted=true
 Posted Command-V event
 ```
 
+`Posted Command-V event` means the keyboard event was sent after OTPilot found a focused editable field. macOS still does not report whether the target app actually accepted the paste.
+
 If the log says `Accessibility is not trusted`, remove any old OTPilot entry from System Settings, add `/Applications/OTPilot.app` again, and enable it.
 
-Notifications intentionally do not include the OTP or sender. OTPilot shows a notification when it copies a code and leaves pasting to you. When auto paste succeeds, it does not show a notification because the paste action itself is the feedback.
+Notifications intentionally do not include the OTP or sender. OTPilot shows a notification when it copies a code and cannot find a focused editable field. When it sends Command-V into a focused field, it does not show a notification because the paste action itself is the feedback.
 
 ## Signing
 
@@ -208,4 +210,4 @@ OTPilot is released under the [MIT License](LICENSE).
 
 OTPilot starts from the newest Messages row on first launch, so it does not scan old SMS history. Use `Skip Old` to reset the cursor to the current latest message.
 
-Auto paste is focus-dependent: the target input field must be focused when the SMS arrives. If detection and Command-V logs appear but nothing pastes, the next likely improvement is a focused-field Accessibility API fallback.
+Auto paste is still focus-dependent: the target input field must be focused when the SMS arrives. OTPilot can now avoid sending Command-V when the focused UI element is clearly not editable, but it cannot choose the right field on a page by itself.
