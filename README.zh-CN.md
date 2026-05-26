@@ -16,7 +16,7 @@ OTPilot 是一个 macOS 13+ 菜单栏小工具，用来处理短信一次性验�
 - 可选在 45 秒后恢复原剪贴板内容。
 - 当验证码只被复制、仍需手动粘贴时，显示通知反馈。
 - 可选开机登录时启动。
-- 默认在应用打开后自动开始监听。
+- 默认在应用打开后自动开始监测。
 
 ## 系统要求
 
@@ -43,10 +43,10 @@ security find-identity -v -p codesigning
 
 OTPilot 目前以源码形式分发，还不是一个经过 notarization 的 `.app` 安装包。
 
-1. 打开 [v1.3 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.3)。
-2. 下载 `OTPilot-v1.3-source.zip`。
+1. 打开 [v1.4 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.4)。
+2. 下载 `OTPilot-v1.4-source.zip`。
 3. 解压这个文件。
-4. 打开解压后的 `OTPilot-v1.3` 文件夹。
+4. 打开解压后的 `OTPilot-v1.4` 文件夹。
 5. 双击 `Install OTPilot.command`。
 
 如果 macOS 提示脚本无法打开，可以右键点击 `Install OTPilot.command`，选择 `Open`，再确认打开。这个安装脚本会自动打开 Terminal，构建 OTPilot，复制到 `/Applications/OTPilot.app`，然后启动应用。
@@ -198,7 +198,7 @@ codesign -dv --verbose=4 /Applications/OTPilot.app 2>&1 | sed -n '1,90p'
 ## 参考项目
 
 - [OTeePee](https://github.com/sushiselite/oteepee)：macOS 15+ 菜单栏应用，读取 `~/Library/Messages/chat.db`，检测 OTP 格式，并复制到剪贴板。
-- [imsg](https://github.com/openclaw/imsg)：更健壮的 Messages 数据库读取和监听实现，对理解 `chat.db`、文件系统事件和 Full Disk Access 很有帮助。
+- [imsg](https://github.com/openclaw/imsg)：更健壮的 Messages 数据库读取和监测实现，对理解 `chat.db`、文件系统事件和 Full Disk Access 很有帮助。
 - [Faktor](https://github.com/nate-parrott/faktor)：面向浏览器的 OTP 自动填充系统，由 macOS app 配合 Chrome extension 工作。
 - [XposedSmsCode](https://github.com/magisk317/XposedSmsCode)、[smscode-core](https://github.com/magisk317/smscode-core) 和 [smscode-rules](https://github.com/magisk317/smscode-rules)：中文短信验证码解析规则的重要参考。
 
@@ -208,6 +208,6 @@ OTPilot 使用 [MIT License](LICENSE) 发布。
 
 ## 备注
 
-OTPilot 首次启动时会从 Messages 当前最新的一行开始监听，所以不会扫描历史短信。之后如果想忽略旧消息，可以点击 `Skip Old` 把游标重置到当前最新消息。
+OTPilot 首次启动时会从 Messages 当前最新的一行开始监测，所以不会扫描历史短信。之后如果想忽略旧消息，可以点击 `Skip Old` 把游标重置到当前最新消息。
 
 自动粘贴仍然依赖当前焦点：验证码到达时，目标输入框必须已经处于聚焦状态。OTPilot 现在可以在焦点明显不是可编辑文本框时避免盲目发送 Command-V，但它还不能自己判断网页上哪一个输入框才是正确目标。

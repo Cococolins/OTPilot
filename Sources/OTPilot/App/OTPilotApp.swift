@@ -8,6 +8,10 @@ struct OTPilotApp: App {
     @StateObject private var monitor = MessageMonitor()
     @StateObject private var languageStore = AppLanguageStore()
 
+    private enum SettingsWindowLayout {
+        static let width: CGFloat = 348
+    }
+
     var body: some Scene {
         MenuBarExtra {
             MenuBarRootView()
@@ -25,9 +29,11 @@ struct OTPilotApp: App {
             SettingsView()
                 .environmentObject(monitor)
                 .environmentObject(languageStore)
-                .frame(width: 520, height: 460)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(width: SettingsWindowLayout.width)
         }
-        .defaultSize(width: 520, height: 460)
+        .defaultSize(width: SettingsWindowLayout.width, height: 1)
+        .windowResizability(.contentSize)
     }
 }
 

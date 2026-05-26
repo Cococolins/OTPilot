@@ -41,6 +41,7 @@ public enum OTPilotLocalizationKey: Sendable {
     case appBundleNotFound
     case autoPaste
     case autoPasteAfterCopy
+    case autoPasteHelp
     case copy
     case detectedCodes
     case detection
@@ -65,6 +66,7 @@ public enum OTPilotLocalizationKey: Sendable {
     case reset
     case restoreClipboard
     case restoreClipboardAfterDelay
+    case restoreClipboardHelp
     case settings
     case settingsWindowTitle
     case start
@@ -118,6 +120,8 @@ public enum OTPilotLocalization {
             return "Auto paste"
         case .autoPasteAfterCopy:
             return "Auto paste after copy"
+        case .autoPasteHelp:
+            return "After copying a detected code, OTPilot sends Command-V to the focused editable field when Accessibility is allowed."
         case .copy:
             return "Copy"
         case .detectedCodes:
@@ -166,6 +170,8 @@ public enum OTPilotLocalization {
             return "Restore clipboard"
         case .restoreClipboardAfterDelay:
             return "Restore previous clipboard after 45 seconds"
+        case .restoreClipboardHelp:
+            return "After copying a code, OTPilot restores your previous clipboard after 45 seconds."
         case .settings:
             return "Settings"
         case .settingsWindowTitle:
@@ -203,6 +209,8 @@ public enum OTPilotLocalization {
             return "自动粘贴"
         case .autoPasteAfterCopy:
             return "复制后自动粘贴"
+        case .autoPasteHelp:
+            return "识别到验证码并复制后，如果当前焦点是可编辑输入框，OTPilot 会自动发送 Command-V 粘贴。"
         case .copy:
             return "复制"
         case .detectedCodes:
@@ -226,7 +234,7 @@ public enum OTPilotLocalization {
         case .messagesDatabaseNotFound:
             return "找不到信息数据库"
         case .monitoring:
-            return "正在监听"
+            return "正在监测"
         case .noCodeYet:
             return "还没有验证码"
         case .noCodeSubtitle:
@@ -251,6 +259,8 @@ public enum OTPilotLocalization {
             return "恢复剪贴板"
         case .restoreClipboardAfterDelay:
             return "45 秒后恢复原剪贴板"
+        case .restoreClipboardHelp:
+            return "复制验证码后，OTPilot 会在 45 秒后把之前的剪贴板内容恢复回来。"
         case .settings:
             return "设置"
         case .settingsWindowTitle:
@@ -258,7 +268,7 @@ public enum OTPilotLocalization {
         case .start:
             return "开始"
         case .startMonitoringOnLaunch:
-            return "打开 OTPilot 时开始监听"
+            return "打开 OTPilot 时开始监测"
         case .startup:
             return "启动"
         case .stop:

@@ -6,26 +6,34 @@ struct MenuBarRootView: View {
     @EnvironmentObject private var monitor: MessageMonitor
     @EnvironmentObject private var languageStore: AppLanguageStore
     @Environment(\.openWindow) private var openWindow
+    @FocusState private var isFocusSinkFocused: Bool
 
-    private enum Layout {
-        static let iconColumnWidth: CGFloat = 26
+    enum Layout {
+        static let iconColumnWidth: CGFloat = 24
         static let iconTextSpacing: CGFloat = 10
-        static let actionButtonSpacing: CGFloat = 18
-        static let actionButtonWidth: CGFloat = 72
+        static let actionButtonSpacing: CGFloat = 14
+        static let actionButtonWidth: CGFloat = 76
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 12) {
             header
 
             Divider()
 
             if let detection = monitor.lastDetection {
-                LastCodeView(detection: detection) {
-                    monitor.copyLastCode()
+                IconColumnRow(systemImage: "message") {
+                    LastCodeView(detection: detection) {
+                        monitor.copyLastCode()
+                    }
                 }
             } else {
-                EmptyStateView()
+                IconColumnRow(systemImage: "message.badge") {
+                    EmptyStateView(
+                        title: languageStore.string(.noCodeYet),
+                        subtitle: languageStore.string(.noCodeSubtitle)
+                    )
+                }
             }
 
             Divider()
@@ -38,6 +46,16 @@ struct MenuBarRootView: View {
         }
         .padding(14)
         .frame(width: 226)
+        .background {
+            Button("") {}
+                .frame(width: 0, height: 0)
+                .opacity(0)
+                .accessibilityHidden(true)
+                .focused($isFocusSinkFocused)
+        }
+        .onAppear {
+            isFocusSinkFocused = true
+        }
     }
 
     private var header: some View {
@@ -77,19 +95,20 @@ struct MenuBarRootView: View {
     }
 
     private var controls: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: Layout.iconTextSpacing) {
-                MenuIcon("slider.horizontal.3")
-
+        VStack(alignment: .leading, spacing: 8) {
+            IconColumnRow(systemImage: "slider.horizontal.3") {
                 HStack(spacing: Layout.actionButtonSpacing) {
                     Button {
                         monitor.state == .monitoring ? monitor.stop() : monitor.start()
                     } label: {
                         Label(primaryActionTitle, systemImage: monitor.state == .monitoring ? "stop.fill" : "play.fill")
+                            .font(.body)
+                            .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 2)
+                            .frame(height: 24)
                     }
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
                     .help(primaryActionTitle)
                     .accessibilityLabel(primaryActionTitle)
                     .frame(width: Layout.actionButtonWidth)
@@ -99,35 +118,37 @@ struct MenuBarRootView: View {
                         monitor.resetStats()
                     } label: {
                         Label(languageStore.string(.reset), systemImage: "arrow.counterclockwise")
+                            .font(.body)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 2)
+                            .frame(height: 24)
                     }
                     .buttonStyle(.bordered)
+                    .controlSize(.small)
                     .help(languageStore.string(.reset))
                     .accessibilityLabel(languageStore.string(.reset))
                     .frame(width: Layout.actionButtonWidth)
                 }
+                .frame(maxWidth: .infinity, alignment: .center)
             }
-            .controlSize(.small)
-            .frame(maxWidth: .infinity)
 
             MenuToggleRow(
                 title: languageStore.string(.autoPaste),
                 systemImage: "keyboard",
                 isOn: $monitor.autoPasteEnabled
             )
-            .help(monitor.isAccessibilityTrustedForAutoPaste ? languageStore.string(.accessibilityEnabledHelp) : languageStore.string(.accessibilityMissingHelp))
+            .help(autoPasteHelp)
 
             MenuToggleRow(
                 title: languageStore.string(.restoreClipboard),
                 systemImage: "clipboard",
                 isOn: $monitor.restoreClipboardEnabled
             )
+            .help(languageStore.string(.restoreClipboardHelp))
         }
     }
 
     private var permissionActions: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 5) {
             Button {
                 PermissionService.openFullDiskAccessSettings()
             } label: {
@@ -175,6 +196,14 @@ struct MenuBarRootView: View {
             return message
         }
     }
+
+    private var autoPasteHelp: String {
+        if monitor.isAccessibilityTrustedForAutoPaste {
+            return languageStore.string(.autoPasteHelp)
+        }
+
+        return "\(languageStore.string(.autoPasteHelp)) \(languageStore.string(.accessibilityMissingHelp))"
+    }
 }
 
 private struct MenuToggleRow: View {
@@ -183,14 +212,27 @@ private struct MenuToggleRow: View {
     @Binding var isOn: Bool
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
             MenuRowLabel(title, systemImage: systemImage)
 
             Toggle(title, isOn: $isOn)
                 .labelsHidden()
                 .toggleStyle(MiniSwitchToggleStyle())
         }
-        .frame(minHeight: 24)
+        .frame(height: 21)
+    }
+}
+
+private struct IconColumnRow<Content: View>: View {
+    let systemImage: String
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 10) {
+            MenuColumnIcon(systemImage)
+
+            content
+        }
     }
 }
 
@@ -232,7 +274,6 @@ private struct MiniSwitchToggleStyle: ToggleStyle {
 private struct MenuRowLabel: View {
     let title: String
     let systemImage: String
-    private let iconTextSpacing: CGFloat = 10
 
     init(_ title: String, systemImage: String) {
         self.title = title
@@ -240,19 +281,19 @@ private struct MenuRowLabel: View {
     }
 
     var body: some View {
-        HStack(spacing: iconTextSpacing) {
-            MenuIcon(systemImage)
-
+        IconColumnRow(systemImage: systemImage) {
             Text(title)
                 .foregroundStyle(.primary)
+                .font(.body)
 
             Spacer(minLength: 0)
         }
+        .frame(height: 21)
         .contentShape(Rectangle())
     }
 }
 
-private struct MenuIcon: View {
+private struct MenuColumnIcon: View {
     let systemName: String
 
     init(_ systemName: String) {
@@ -261,9 +302,9 @@ private struct MenuIcon: View {
 
     var body: some View {
         Image(systemName: systemName)
-            .font(.system(size: 16))
+            .font(.system(size: 15, weight: .regular))
             .foregroundStyle(.secondary)
-            .frame(width: 26)
+            .frame(width: MenuBarRootView.Layout.iconColumnWidth, height: 18, alignment: .center)
     }
 }
 
@@ -290,7 +331,6 @@ private struct LastCodeView: View {
             }
 
             HStack(spacing: 6) {
-                Image(systemName: "message")
                 Text(detection.sender)
                 Text("\(OTPilotLocalization.currentString(.timePrefix)) \(OTPilotDateFormatting.detectionTime.string(from: detection.detectedAt))")
             }
@@ -302,18 +342,16 @@ private struct LastCodeView: View {
 }
 
 private struct EmptyStateView: View {
-    var body: some View {
-        HStack(spacing: 10) {
-            MenuIcon("message.badge")
-                .font(.title3)
+    let title: String
+    let subtitle: String
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(OTPilotLocalization.currentString(.noCodeYet))
-                    .font(.subheadline.weight(.medium))
-                Text(OTPilotLocalization.currentString(.noCodeSubtitle))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(.subheadline.weight(.medium))
+            Text(subtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
