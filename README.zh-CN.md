@@ -51,11 +51,13 @@ OTPilot 目前以源码形式分发，还不是一个经过 notarization 的 `.a
 
 如果 macOS 提示脚本无法打开，可以右键点击 `Install OTPilot.command`，选择 `Open`，再确认打开。这个安装脚本会自动打开 Terminal，构建 OTPilot，复制到 `/Applications/OTPilot.app`，然后启动应用。
 
-如果安装脚本提示找不到 Swift 或 `make`，需要先安装 Apple Command Line Tools：
+如果安装脚本提示找不到 Swift 或 `make`，需要先安装 Apple Command Line Tools。按 Command-Space 打开 Spotlight，输入「终端」或 `Terminal`，打开 Terminal app，把下面这行命令复制进去，然后按 Return：
 
 ```bash
 xcode-select --install
 ```
+
+macOS 会弹出安装提示，按提示安装完成后，再双击一次 `Install OTPilot.command`。
 
 ### 给熟悉 Terminal 的用户
 

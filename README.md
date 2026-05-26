@@ -51,11 +51,13 @@ OTPilot is distributed as source code for now, not as a notarized `.app`.
 
 If macOS says the script cannot be opened, right-click `Install OTPilot.command`, choose `Open`, then confirm. The installer opens Terminal, builds OTPilot, copies it to `/Applications/OTPilot.app`, and launches it.
 
-If the installer says Swift or `make` is missing, install Apple's Command Line Tools first:
+If the installer says Swift or `make` is missing, install Apple's Command Line Tools first. To do that, press Command-Space, type `Terminal`, open the Terminal app, paste this command, and press Return:
 
 ```bash
 xcode-select --install
 ```
+
+macOS will show an installation prompt. Follow the prompt, then double-click `Install OTPilot.command` again.
 
 ### For Terminal Users
 
