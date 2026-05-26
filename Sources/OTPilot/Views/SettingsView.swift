@@ -1,3 +1,4 @@
+import AppKit
 import OTPilotCore
 import SwiftUI
 
@@ -71,6 +72,8 @@ struct SettingsView: View {
                 .opacity(0)
                 .accessibilityHidden(true)
                 .focused($isFocusSinkFocused)
+
+            WindowTitleUpdater(title: languageStore.string(.settingsWindowTitle))
         }
         .onAppear {
             refreshLaunchAtLogin()
@@ -131,6 +134,26 @@ struct SettingsView: View {
             return "English"
         case .simplifiedChinese:
             return "中文"
+        }
+    }
+}
+
+private struct WindowTitleUpdater: NSViewRepresentable {
+    let title: String
+
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView()
+        updateWindowTitle(for: view)
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {
+        updateWindowTitle(for: nsView)
+    }
+
+    private func updateWindowTitle(for view: NSView) {
+        DispatchQueue.main.async {
+            view.window?.title = title
         }
     }
 }

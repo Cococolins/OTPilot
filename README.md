@@ -208,6 +208,6 @@ OTPilot is released under the [MIT License](LICENSE).
 
 ## Notes
 
-OTPilot starts from the newest Messages row on first launch, so it does not scan old SMS history. Use `Skip Old` to reset the cursor to the current latest message.
+OTPilot starts from the newest Messages row on first launch, so it does not scan old SMS history. Use `Reset` to clear the current detection state and reset the cursor to the latest message.
 
 Auto paste is still focus-dependent: the target input field must be focused when the SMS arrives. OTPilot can now avoid sending Command-V when the focused UI element is clearly not editable, but it cannot choose the right field on a page by itself.
