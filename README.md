@@ -2,7 +2,7 @@
 
 [中文](README.zh-CN.md) | English
 
-OTPilot is a macOS 15 menu bar utility for SMS one-time passwords. It watches the local Messages database, extracts likely verification codes, copies the code to the clipboard, and can optionally paste it into the currently focused field.
+OTPilot is a macOS 13+ menu bar utility for SMS one-time passwords. It watches the local Messages database, extracts likely verification codes, copies the code to the clipboard, and can optionally paste it into the currently focused field.
 
 It is designed for browsers like Dia, Chrome, and Arc where macOS does not provide Safari-style SMS code autofill.
 
@@ -22,11 +22,11 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 
 OTPilot does not provide a notarized prebuilt release yet. For now, build it from source.
 
-- macOS 15 or later.
+- macOS 13 or later.
 - Messages configured on the Mac and SMS forwarding/iMessage sync enabled.
 - Full Disk Access permission for OTPilot.
 - Accessibility permission if `Auto paste` is enabled.
-- macOS 15 SDK.
+- macOS 13 SDK or later.
 - Xcode or Apple Command Line Tools with `swift`, `make`, `codesign`, and standard macOS developer tools available.
 - Optional but recommended: a local Apple Development signing identity. A free Apple ID development certificate is enough for local use; a paid Developer ID certificate is only needed for polished public distribution/notarization.
 
@@ -43,10 +43,10 @@ security find-identity -v -p codesigning
 
 OTPilot is distributed as source code for now, not as a notarized `.app`.
 
-1. Open the [v1.0 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.0).
-2. Download `OTPilot-v1.0-source.zip`.
+1. Open the [v1.2 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.2).
+2. Download `OTPilot-v1.2-source.zip`.
 3. Unzip the file.
-4. Open the unzipped `OTPilot-v1.0` folder.
+4. Open the unzipped `OTPilot-v1.2` folder.
 5. Double-click `Install OTPilot.command`.
 
 If macOS says the script cannot be opened, right-click `Install OTPilot.command`, choose `Open`, then confirm. The installer opens Terminal, builds OTPilot, copies it to `/Applications/OTPilot.app`, and launches it.

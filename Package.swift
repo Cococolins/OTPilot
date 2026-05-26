@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "OTPilot",
     platforms: [
-        .macOS(.v15)
+        .macOS(.v13)
     ],
     products: [
         .executable(name: "OTPilot", targets: ["OTPilot"]),
