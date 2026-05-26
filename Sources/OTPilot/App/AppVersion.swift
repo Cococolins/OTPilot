@@ -1,7 +1,7 @@
 import Foundation
 
 enum AppVersion {
-    private static let fallbackVersion = "1.4"
+    private static let fallbackVersion = "1.5"
 
     static var shortVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? fallbackVersion

@@ -4,8 +4,8 @@ set -euo pipefail
 MODE="${1:-run}"
 APP_NAME="OTPilot"
 BUNDLE_ID="${BUNDLE_ID:-app.otpilot.OTPilot}"
-APP_VERSION="${APP_VERSION:-1.4}"
-BUILD_NUMBER="${BUILD_NUMBER:-5}"
+APP_VERSION="${APP_VERSION:-1.5}"
+BUILD_NUMBER="${BUILD_NUMBER:-6}"
 MIN_SYSTEM_VERSION="13.0"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
