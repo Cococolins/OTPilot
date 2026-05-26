@@ -12,6 +12,8 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            SettingsHeader(versionText: appVersionText)
+
             SettingsSection(title: languageStore.string(.detection)) {
                 SettingsLineGroup {
                     SettingsToggleRow(title: languageStore.string(.startMonitoringOnLaunch), isOn: $monitor.startMonitoringOnLaunch)
@@ -58,14 +60,10 @@ struct SettingsView: View {
                 }
             }
 
-            SettingsSection(title: languageStore.string(.about)) {
-                SettingsLineGroup {
-                    SettingsAboutRow(title: "OTPilot by Cococolin", value: appVersionText)
-                }
-            }
         }
         .padding(.horizontal, 18)
         .padding(.vertical, 20)
+        .background(Color(nsColor: .windowBackgroundColor))
         .background {
             Button("") {}
                 .frame(width: 0, height: 0)
@@ -138,6 +136,37 @@ struct SettingsView: View {
     }
 }
 
+private struct SettingsHeader: View {
+    let versionText: String
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Spacer(minLength: 0)
+
+            if let icon = NSImage(named: "AppPanelIcon") ?? Bundle.main.url(forResource: "AppPanelIcon", withExtension: "png").flatMap(NSImage.init(contentsOf:)) {
+                Image(nsImage: icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 88, height: 88)
+                    .accessibilityHidden(true)
+            }
+
+            Text("**OTPilot** by Cococolin")
+                .font(.body)
+                .multilineTextAlignment(.center)
+
+            Text(versionText)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 138)
+    }
+}
+
 private struct WindowTitleUpdater: NSViewRepresentable {
     let title: String
 
@@ -178,6 +207,12 @@ private struct SettingsLineGroup<Content: View>: View {
     var body: some View {
         VStack(spacing: 0) {
             content
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Color(nsColor: .textBackgroundColor))
         }
     }
 }
@@ -252,26 +287,6 @@ private struct SettingsButtonRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .frame(height: 30)
-    }
-}
-
-private struct SettingsAboutRow: View {
-    let title: String
-    let value: String
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Text(title)
-                .lineLimit(1)
-
-            Spacer(minLength: 8)
-
-            Text(value)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-        }
-        .font(.body)
         .frame(height: 30)
     }
 }

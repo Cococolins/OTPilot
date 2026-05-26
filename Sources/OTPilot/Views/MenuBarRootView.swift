@@ -60,22 +60,16 @@ struct MenuBarRootView: View {
 
     private var header: some View {
         HStack(spacing: Layout.iconTextSpacing) {
-            AppIconView()
+            HeaderStatusIcon(state: monitor.state)
                 .frame(width: Layout.iconColumnWidth, height: Layout.iconColumnWidth)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("OTPilot")
                     .font(.headline)
-                HStack(spacing: 4) {
-                    Image(systemName: monitor.state == .monitoring ? "checkmark.circle.fill" : "pause.circle")
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(monitor.state == .monitoring ? .green : .secondary)
-
-                    Text(localizedStateLabel)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(2)
-                }
+                Text(localizedStateLabel)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
             }
 
             Spacer()
@@ -236,17 +230,14 @@ private struct IconColumnRow<Content: View>: View {
     }
 }
 
-private struct AppIconView: View {
+private struct HeaderStatusIcon: View {
+    let state: MonitorState
+
     var body: some View {
-        if let icon = NSImage(named: "AppIcon") ?? Bundle.main.url(forResource: "AppIcon", withExtension: "icns").flatMap(NSImage.init(contentsOf:)) {
-            Image(nsImage: icon)
-                .resizable()
-                .scaledToFit()
-        } else {
-            Image(systemName: "key.fill")
-                .font(.title3)
-                .foregroundStyle(.secondary)
-        }
+        Image(systemName: state == .monitoring ? "checkmark.circle.fill" : "pause.circle")
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundStyle(state == .monitoring ? .green : .secondary)
+            .frame(width: MenuBarRootView.Layout.iconColumnWidth, height: 18, alignment: .center)
     }
 }
 

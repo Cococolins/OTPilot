@@ -33,6 +33,10 @@ if [[ -f "$ROOT_DIR/Resources/AppIcon.icns" ]]; then
   cp "$ROOT_DIR/Resources/AppIcon.icns" "$APP_RESOURCES/AppIcon.icns"
 fi
 
+if [[ -f "$ROOT_DIR/Resources/AppPanelIcon.png" ]]; then
+  cp "$ROOT_DIR/Resources/AppPanelIcon.png" "$APP_RESOURCES/AppPanelIcon.png"
+fi
+
 cat >"$INFO_PLIST" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
