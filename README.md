@@ -1,5 +1,7 @@
 # OTPilot
 
+[中文](README.zh-CN.md) | English
+
 OTPilot is a macOS 15 menu bar utility for SMS one-time passwords. It watches the local Messages database, extracts likely verification codes, copies the code to the clipboard, and can optionally paste it into the currently focused field.
 
 It is designed for browsers like Dia, Chrome, and Arc where macOS does not provide Safari-style SMS code autofill.
@@ -18,17 +20,14 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 
 ## Requirements
 
-To run a prebuilt `OTPilot.app`:
+OTPilot does not provide a notarized prebuilt release yet. For now, build it from source.
 
 - macOS 15 or later.
 - Messages configured on the Mac and SMS forwarding/iMessage sync enabled.
 - Full Disk Access permission for OTPilot.
 - Accessibility permission if `Auto paste` is enabled.
-
-To build from source:
-
 - macOS 15 SDK.
-- Xcode or Apple Command Line Tools with `swift`, `codesign`, and standard macOS developer tools available.
+- Xcode or Apple Command Line Tools with `swift`, `make`, `codesign`, and standard macOS developer tools available.
 - Optional but recommended: a local Apple Development signing identity. A free Apple ID development certificate is enough for local use; a paid Developer ID certificate is only needed for polished public distribution/notarization.
 
 Check your local toolchain with:
@@ -40,15 +39,47 @@ security find-identity -v -p codesigning
 
 ## Install And Run
 
-If you downloaded a prebuilt release, copy `OTPilot.app` to `/Applications`, open it, and grant the permissions above.
+### For Non-Technical Users
 
-If you are building from source, install the app into `/Applications`:
+OTPilot is distributed as source code for now, not as a notarized `.app`.
+
+1. Open the [v1.0 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.0).
+2. Download `OTPilot-v1.0-source.zip`.
+3. Unzip the file.
+4. Open the unzipped `OTPilot-v1.0` folder.
+5. Double-click `Install OTPilot.command`.
+
+If macOS says the script cannot be opened, right-click `Install OTPilot.command`, choose `Open`, then confirm. The installer opens Terminal, builds OTPilot, copies it to `/Applications/OTPilot.app`, and launches it.
+
+If the installer says Swift or `make` is missing, install Apple's Command Line Tools first:
+
+```bash
+xcode-select --install
+```
+
+### For Terminal Users
+
+Run the install command from the project folder. For example, after cloning the repository:
+
+```bash
+git clone https://github.com/Cococolins/OTPilot.git
+cd OTPilot
+make install
+```
+
+If you downloaded the source as a ZIP, unzip it, open Terminal, `cd` into the unzipped `OTPilot` folder, then run:
+
+```bash
+make install
+```
+
+This builds the SwiftPM app, stages `dist/OTPilot.app`, signs it, copies it to `/Applications/OTPilot.app`, and launches the installed app.
+
+You can also call the underlying script directly:
 
 ```bash
 ./script/build_and_run.sh --install
 ```
-
-This command builds the SwiftPM app, stages `dist/OTPilot.app`, signs it, copies it to `/Applications/OTPilot.app`, and launches the installed app.
 
 Use `--install` during development too. macOS privacy permissions are tied to app identity and path, so switching between `dist/OTPilot.app` and `/Applications/OTPilot.app` can make Accessibility or Full Disk Access look enabled while the running app is not actually trusted.
 
@@ -127,25 +158,25 @@ The current strategy is:
 Build only:
 
 ```bash
-swift build
+make build
 ```
 
 Install and launch:
 
 ```bash
-./script/build_and_run.sh --install
+make install
 ```
 
 Verify process launch:
 
 ```bash
-./script/build_and_run.sh --verify
+make verify
 ```
 
 Stream app logs:
 
 ```bash
-./script/build_and_run.sh --telemetry
+make telemetry
 ```
 
 Inspect the running app path:
