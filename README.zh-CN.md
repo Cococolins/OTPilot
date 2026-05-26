@@ -200,6 +200,10 @@ codesign -dv --verbose=4 /Applications/OTPilot.app 2>&1 | sed -n '1,90p'
 - [Faktor](https://github.com/nate-parrott/faktor)：面向浏览器的 OTP 自动填充系统，由 macOS app 配合 Chrome extension 工作。
 - [XposedSmsCode](https://github.com/magisk317/XposedSmsCode)、[smscode-core](https://github.com/magisk317/smscode-core) 和 [smscode-rules](https://github.com/magisk317/smscode-rules)：中文短信验证码解析规则的重要参考。
 
+## 开源许可
+
+OTPilot 使用 [MIT License](LICENSE) 发布。
+
 ## 备注
 
 OTPilot 首次启动时会从 Messages 当前最新的一行开始监听，所以不会扫描历史短信。之后如果想忽略旧消息，可以点击 `Skip Old` 把游标重置到当前最新消息。

@@ -200,6 +200,10 @@ codesign -dv --verbose=4 /Applications/OTPilot.app 2>&1 | sed -n '1,90p'
 - [Faktor](https://github.com/nate-parrott/faktor): browser-oriented OTP autofill system pairing a macOS app with a Chrome extension.
 - [XposedSmsCode](https://github.com/magisk317/XposedSmsCode), [smscode-core](https://github.com/magisk317/smscode-core), and [smscode-rules](https://github.com/magisk317/smscode-rules): useful references for Chinese SMS-code parsing rules.
 
+## License
+
+OTPilot is released under the [MIT License](LICENSE).
+
 ## Notes
 
 OTPilot starts from the newest Messages row on first launch, so it does not scan old SMS history. Use `Skip Old` to reset the cursor to the current latest message.
