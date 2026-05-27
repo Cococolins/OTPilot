@@ -95,7 +95,7 @@ OTPilot 需要 Full Disk Access 来读取：
 ~/Library/Messages/chat.db
 ```
 
-自动粘贴需要 Accessibility 权限。OTPilot 会用 Accessibility API 检查当前聚焦的 UI 元素是不是可编辑文本框；如果是，就发送 Command-V，让浏览器里的 paste 事件继续生效，包括 6 个独立小格的 OTP 输入框。如果没有可编辑文本框处于焦点中，OTPilot 会保留剪贴板里的验证码并发通知，而不是盲目发送 Command-V。
+自动粘贴需要 Accessibility 权限。OTPilot 会用 Accessibility API 检查当前聚焦的 UI 元素是不是可编辑文本框；如果是，就发送 Command-V，让浏览器里的 paste 事件继续生效，包括多个独立小格的 OTP 输入框。如果没有可编辑文本框处于焦点中，OTPilot 会保留剪贴板里的验证码并发通知，而不是盲目发送 Command-V。
 
 如果自动粘贴不工作，可以检查日志：
 
