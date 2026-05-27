@@ -287,6 +287,7 @@
         position: absolute;
         right: 0;
         bottom: 20px;
+        z-index: 2;
         width: min(560px, 100%);
         border: 1px solid var(--line);
         border-radius: 18px;
@@ -387,13 +388,14 @@
 
       .menu-panel {
         position: absolute;
-        top: 34px;
+        top: 18px;
         left: 4px;
-        width: 336px;
-        border: 1px solid rgba(190, 202, 216, 0.92);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.94);
-        box-shadow: 0 20px 54px rgba(17, 37, 65, 0.18);
+        z-index: 3;
+        width: 360px;
+        border: 1px solid rgba(196, 205, 214, 0.92);
+        border-radius: 18px;
+        background: rgba(247, 248, 249, 0.96);
+        box-shadow: 0 22px 60px rgba(17, 37, 65, 0.18);
         backdrop-filter: blur(20px);
       }
 
@@ -406,29 +408,30 @@
         height: 18px;
         border-top: 1px solid rgba(190, 202, 216, 0.92);
         border-left: 1px solid rgba(190, 202, 216, 0.92);
-        background: rgba(255, 255, 255, 0.94);
+        background: rgba(247, 248, 249, 0.96);
         transform: rotate(45deg);
       }
 
       .panel-inner {
         position: relative;
-        padding: 18px;
+        padding: 22px;
       }
 
       .panel-head {
-        display: flex;
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
         align-items: center;
-        gap: 12px;
+        gap: 13px;
       }
 
       .panel-head img {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
       }
 
       .panel-title {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 740;
       }
 
@@ -436,10 +439,29 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        margin-top: 4px;
+        margin-top: 3px;
         color: var(--green);
-        font-size: 12px;
-        font-weight: 650;
+        font-size: 13px;
+        font-weight: 680;
+      }
+
+      .panel-count {
+        text-align: right;
+      }
+
+      .panel-count strong {
+        display: block;
+        font-size: 26px;
+        line-height: 1;
+        font-weight: 760;
+      }
+
+      .panel-count span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 660;
       }
 
       .status-dot {
@@ -450,52 +472,106 @@
       }
 
       .code-card {
-        margin-top: 18px;
-        padding: 15px;
-        border: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 13px;
+        align-items: center;
+        margin-top: 22px;
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
         border-radius: 8px;
-        background: var(--bg-soft);
+        background: transparent;
       }
 
       .code-label {
         color: var(--muted);
-        font-size: 12px;
-        font-weight: 650;
+        font-size: 13px;
+        font-weight: 680;
       }
 
       .code-value {
-        margin-top: 8px;
+        margin-top: 4px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 32px;
+        font-size: 30px;
         font-weight: 740;
         letter-spacing: 0.08em;
+      }
+
+      .panel-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        color: #7a838d;
+      }
+
+      .panel-icon svg {
+        width: 27px;
+        height: 27px;
+        stroke-width: 1.9;
       }
 
       .panel-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 14px;
+        gap: 18px;
+        margin-top: 20px;
       }
 
       .panel-button {
-        display: grid;
-        place-items: center;
-        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
         border: 1px solid var(--line);
         border-radius: 8px;
         background: #ffffff;
-        font-size: 12px;
-        font-weight: 680;
+        color: #4b525a;
+        font-size: 15px;
+        font-weight: 720;
+      }
+
+      .panel-button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #ffffff;
+      }
+
+      .panel-button svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.2;
       }
 
       .toggle-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
         align-items: center;
-        justify-content: space-between;
-        margin-top: 15px;
-        color: var(--muted);
-        font-size: 13px;
+        gap: 12px;
+        margin-top: 14px;
+        color: #424950;
+        font-size: 16px;
+        font-weight: 660;
+      }
+
+      .panel-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .panel-list-row {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        align-items: center;
+        gap: 12px;
+        color: #424950;
+        font-size: 16px;
+        font-weight: 680;
       }
 
       .switch {
@@ -517,10 +593,19 @@
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
       }
 
+      .switch.off {
+        background: #c9cfd6;
+      }
+
+      .switch.off::after {
+        margin-left: 0;
+      }
+
       .sms-bubble {
         position: absolute;
         right: 32px;
         top: 22px;
+        z-index: 1;
         max-width: 250px;
         padding: 14px 16px;
         border: 1px solid #b9ddc8;
@@ -912,7 +997,7 @@
     <main>
       <section class="section hero">
         <div class="hero-copy">
-          <h1 data-i18n="hero.title">让验证码自己到位。</h1>
+          <h1 data-i18n="hero.title">让验证码自动填充。</h1>
           <p data-i18n="hero.copy">
             OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。
           </p>
@@ -947,7 +1032,7 @@
         </div>
 
         <div class="product-stage" aria-label="OTPilot product preview">
-          <div class="sms-bubble" data-i18n="mock.sms">【豆瓣网】豆瓣登录验证码：2463，20 分钟内有效。</div>
+          <div class="sms-bubble" data-i18n="mock.sms">【某网站】登录验证码：0817，20 分钟内有效。</div>
 
           <div class="menu-panel">
             <div class="panel-inner">
@@ -955,20 +1040,88 @@
                 <img src="assets/app-panel-icon.png" alt="">
                 <div>
                   <div class="panel-title">OTPilot</div>
-                  <div class="panel-status"><span class="status-dot"></span>Monitoring messages</div>
+                  <div class="panel-status"><span class="status-dot"></span><span data-i18n="panel.status">正在监测</span></div>
+                </div>
+                <div class="panel-count">
+                  <strong>1</strong>
+                  <span>v1.5.1</span>
                 </div>
               </div>
               <div class="code-card">
-                <div class="code-label">Last copied code</div>
-                <div class="code-value">2463</div>
+                <div class="panel-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 16.5 3.8 20l3.8-1.1a7.8 7.8 0 0 0 4.2 1.1c4.4 0 8-3 8-6.8s-3.6-6.8-8-6.8-8 3-8 6.8c0 1.2.4 2.3 1.2 3.3Z" stroke="currentColor" stroke-linejoin="round"></path>
+                    <circle cx="18.8" cy="5.2" r="2.2" fill="currentColor"></circle>
+                  </svg>
+                </div>
+                <div>
+                  <div class="code-label" data-i18n="panel.lastCode">最近验证码</div>
+                  <div class="code-value">0817</div>
+                </div>
               </div>
               <div class="panel-actions">
-                <div class="panel-button">Stop</div>
-                <div class="panel-button">Reset</div>
+                <div class="panel-button primary">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor"></rect>
+                  </svg>
+                  <span data-i18n="panel.stop">停止</span>
+                </div>
+                <div class="panel-button">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 7v5h5M7.4 12a6 6 0 1 0 2-4.5L7 9.8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  <span data-i18n="panel.reset">重置</span>
+                </div>
               </div>
               <div class="toggle-row">
-                <span>Auto paste</span>
+                <span class="panel-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M4 8h16M4 12h16M7 16h10" stroke="currentColor" stroke-linecap="round"></path>
+                    <rect x="6" y="5" width="12" height="14" rx="2" stroke="currentColor"></rect>
+                  </svg>
+                </span>
+                <span data-i18n="panel.autoPaste">自动粘贴</span>
                 <span class="switch" aria-hidden="true"></span>
+              </div>
+              <div class="toggle-row">
+                <span class="panel-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M9 5h6l1 2h2v13H6V7h2l1-2Z" stroke="currentColor" stroke-linejoin="round"></path>
+                    <path d="M9 11h6M9 15h5" stroke="currentColor" stroke-linecap="round"></path>
+                  </svg>
+                </span>
+                <span data-i18n="panel.restoreClipboard">恢复剪贴板</span>
+                <span class="switch" aria-hidden="true"></span>
+              </div>
+              <div class="panel-list">
+                <div class="panel-list-row">
+                  <span class="panel-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M5 15h14l-2-7H7l-2 7Z" stroke="currentColor" stroke-linejoin="round"></path>
+                      <path d="M8 15v2M16 15v2M7 19h10" stroke="currentColor" stroke-linecap="round"></path>
+                      <path d="m6 11 2 2 4-5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+                  <span data-i18n="panel.fullDisk">完全磁盘访问权限</span>
+                </div>
+                <div class="panel-list-row">
+                  <span class="panel-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M10 4v8l4 7M10 12l-3 7M10 12h7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <circle cx="10" cy="4" r="2" stroke="currentColor"></circle>
+                    </svg>
+                  </span>
+                  <span data-i18n="panel.accessibility">辅助功能</span>
+                </div>
+                <div class="panel-list-row">
+                  <span class="panel-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Z" stroke="currentColor"></path>
+                      <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.4 1a7 7 0 0 0-2-1.1L14.2 3h-4.4l-.4 2.8a7 7 0 0 0-2 1.1l-2.4-1-2 3.4 2 1.5A7.4 7.4 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.4-1a7 7 0 0 0 2 1.1l.4 2.8h4.4l.4-2.8a7 7 0 0 0 2-1.1l2.4 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2Z" stroke="currentColor" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+                  <span data-i18n="panel.settings">设置</span>
+                </div>
               </div>
             </div>
           </div>
@@ -985,10 +1138,10 @@
                 <div class="login-title" data-i18n="mock.loginTitle">输入验证码</div>
                 <p class="login-copy" data-i18n="mock.loginCopy">验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。</p>
                 <div class="otp-row" aria-label="verification code">
-                  <div class="otp-box">2</div>
-                  <div class="otp-box">4</div>
-                  <div class="otp-box">6</div>
-                  <div class="otp-box active">3</div>
+                  <div class="otp-box">0</div>
+                  <div class="otp-box">8</div>
+                  <div class="otp-box">1</div>
+                  <div class="otp-box active">7</div>
                   <div class="otp-box"></div>
                   <div class="otp-box"></div>
                 </div>
@@ -1118,7 +1271,7 @@ make dmg</code>
           "nav.workflow": "工作方式",
           "nav.privacy": "权限",
           "nav.install": "安装",
-          "hero.title": "让验证码自己到位。",
+          "hero.title": "让验证码自动填充。",
           "hero.copy": "OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。",
           "hero.primary": "下载 DMG",
           "hero.secondary": "查看 GitHub",
@@ -1128,9 +1281,18 @@ make dmg</code>
           "note.templates.copy": "支持常见英文、简体中文和繁体中文验证码格式。",
           "note.menubar.title": "菜单栏常驻",
           "note.menubar.copy": "没有 Dock 图标，打开后默认开始监测新消息。",
-          "mock.sms": "【豆瓣网】豆瓣登录验证码：2463，20 分钟内有效。",
+          "mock.sms": "【某网站】登录验证码：0817，20 分钟内有效。",
           "mock.loginTitle": "输入验证码",
           "mock.loginCopy": "验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。",
+          "panel.status": "正在监测",
+          "panel.lastCode": "最近验证码",
+          "panel.stop": "停止",
+          "panel.reset": "重置",
+          "panel.autoPaste": "自动粘贴",
+          "panel.restoreClipboard": "恢复剪贴板",
+          "panel.fullDisk": "完全磁盘访问权限",
+          "panel.accessibility": "辅助功能",
+          "panel.settings": "设置",
           "workflow.title": "它做的事情很少，也正因为如此可靠。",
           "workflow.copy": "OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。",
           "step.watch.title": "监测 Messages",
@@ -1172,9 +1334,18 @@ make dmg</code>
           "note.templates.copy": "Handles common English, Simplified Chinese, and Traditional Chinese verification-code formats.",
           "note.menubar.title": "Menu bar first",
           "note.menubar.copy": "No Dock icon. It starts monitoring new messages when the app opens.",
-          "mock.sms": "Your verification code is 2463. It expires in 20 minutes.",
+          "mock.sms": "Your verification code is 0817. It expires in 20 minutes.",
           "mock.loginTitle": "Enter verification code",
           "mock.loginCopy": "The code was sent to your phone. OTPilot can copy it, or paste it when the field is focused.",
+          "panel.status": "Monitoring",
+          "panel.lastCode": "Recent code",
+          "panel.stop": "Stop",
+          "panel.reset": "Reset",
+          "panel.autoPaste": "Auto paste",
+          "panel.restoreClipboard": "Restore clipboard",
+          "panel.fullDisk": "Full Disk Access",
+          "panel.accessibility": "Accessibility",
+          "panel.settings": "Settings",
           "workflow.title": "It does very little, which is why it stays reliable.",
           "workflow.copy": "OTPilot does not take over your browser or inject scripts into web pages. When a new message arrives, it detects the code and leaves the rest to the macOS clipboard and the current app's paste behavior.",
           "step.watch.title": "Watches Messages",
