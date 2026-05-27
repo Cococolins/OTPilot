@@ -4,8 +4,8 @@ set -euo pipefail
 MODE="${1:-run}"
 APP_NAME="OTPilot"
 BUNDLE_ID="${BUNDLE_ID:-app.otpilot.OTPilot}"
-APP_VERSION="${APP_VERSION:-1.5}"
-BUILD_NUMBER="${BUILD_NUMBER:-6}"
+APP_VERSION="${APP_VERSION:-1.5.1}"
+BUILD_NUMBER="${BUILD_NUMBER:-7}"
 MIN_SYSTEM_VERSION="13.0"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -35,6 +35,10 @@ fi
 
 if [[ -f "$ROOT_DIR/Resources/AppPanelIcon.png" ]]; then
   cp "$ROOT_DIR/Resources/AppPanelIcon.png" "$APP_RESOURCES/AppPanelIcon.png"
+fi
+
+if [[ -f "$ROOT_DIR/Resources/AppStatusBarIconTemplate.png" ]]; then
+  cp "$ROOT_DIR/Resources/AppStatusBarIconTemplate.png" "$APP_RESOURCES/AppStatusBarIconTemplate.png"
 fi
 
 cat >"$INFO_PLIST" <<PLIST

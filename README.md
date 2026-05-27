@@ -43,10 +43,10 @@ security find-identity -v -p codesigning
 
 OTPilot is distributed as source code for now, not as a notarized `.app`.
 
-1. Open the [v1.5 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.5).
-2. Download `OTPilot-v1.5-source.zip`.
+1. Open the [v1.5.1 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.5.1).
+2. Download `OTPilot-v1.5.1-source.zip`.
 3. Unzip the file.
-4. Open the unzipped `OTPilot-v1.5` folder.
+4. Open the unzipped `OTPilot-v1.5.1` folder.
 5. Double-click `Install OTPilot.command`.
 
 If macOS says the script cannot be opened, right-click `Install OTPilot.command`, choose `Open`, then confirm. The installer opens Terminal, builds OTPilot, copies it to `/Applications/OTPilot.app`, and launches it.
