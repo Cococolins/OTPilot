@@ -1200,7 +1200,7 @@
                 </svg>
               </div>
               <div>
-                <h3>Full Disk Access</h3>
+                <h3 data-i18n="privacy.fda.title">完全磁盘访问权限</h3>
                 <p data-i18n="privacy.fda.copy">用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。</p>
               </div>
             </article>
@@ -1211,7 +1211,7 @@
                 </svg>
               </div>
               <div>
-                <h3>Accessibility</h3>
+                <h3 data-i18n="privacy.ax.title">辅助功能</h3>
                 <p data-i18n="privacy.ax.copy">只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。</p>
               </div>
             </article>
@@ -1222,7 +1222,7 @@
                 </svg>
               </div>
               <div>
-                <h3>Notifications</h3>
+                <h3 data-i18n="privacy.notifications.title">通知</h3>
                 <p data-i18n="privacy.notifications.copy">可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。</p>
               </div>
             </article>
@@ -1275,7 +1275,7 @@ make dmg</code>
         <span data-i18n="footer.license">OTPilot is released under the MIT License.</span>
         <div class="footer-links">
           <a href="https://github.com/Cococolins/OTPilot">GitHub</a>
-          <a href="https://github.com/Cococolins/OTPilot/blob/main/README.zh-CN.md">README</a>
+          <a data-readme-link href="https://github.com/Cococolins/OTPilot/blob/main/README.zh-CN.md">README</a>
         </div>
       </div>
     </footer>
@@ -1322,8 +1322,11 @@ make dmg</code>
           "step.paste.copy": "检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。",
           "privacy.title": "权限保持透明。",
           "privacy.copy": "这是一个本机工具，所以权限边界应该清楚。OTPilot 代码开源可审查，核心流程留在本机，不上传短信内容，也不会在没有输入焦点时盲目粘贴。",
+          "privacy.fda.title": "完全磁盘访问权限",
           "privacy.fda.copy": "用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。",
+          "privacy.ax.title": "辅助功能",
           "privacy.ax.copy": "只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。",
+          "privacy.notifications.title": "通知",
           "privacy.notifications.copy": "可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。",
           "privacy.source.title": "代码开源",
           "privacy.source.copy": "代码可以直接审查。当前应用没有网络同步或分析逻辑；短信解析、复制和粘贴都在本机完成。",
@@ -1377,8 +1380,11 @@ make dmg</code>
           "step.paste.copy": "When a code is detected, OTPilot copies it to the clipboard. If Auto paste is enabled and an editable field is focused, it sends Command-V.",
           "privacy.title": "Permissions stay explicit.",
           "privacy.copy": "This is a local utility, so the boundary should be clear. OTPilot is open source, keeps the core flow on your Mac, does not upload message content, and does not blindly paste when no editable field is focused.",
+          "privacy.fda.title": "Full Disk Access",
           "privacy.fda.copy": "Required to read the local Messages database. This is how macOS protects `chat.db`.",
+          "privacy.ax.title": "Accessibility",
           "privacy.ax.copy": "Only needed for Auto paste. It checks whether the focused element is editable and sends Command-V.",
+          "privacy.notifications.title": "Notifications",
           "privacy.notifications.copy": "Optional. Used only when a code was copied but not pasted, without showing the code or sender.",
           "privacy.source.title": "Open source",
           "privacy.source.copy": "The code is available for review. The current app has no network sync or analytics logic; parsing, copying, and pasting happen locally.",
@@ -1399,6 +1405,7 @@ make dmg</code>
       const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
       const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
       const twitterDescriptionMeta = document.querySelector('meta[name="twitter:description"]');
+      const readmeLink = document.querySelector("[data-readme-link]");
 
       function preferredLanguage() {
         const saved = localStorage.getItem("otpilot-language");
@@ -1415,6 +1422,10 @@ make dmg</code>
         ogDescriptionMeta.setAttribute("content", copy.ogDescription);
         twitterTitleMeta.setAttribute("content", copy.metaTitle);
         twitterDescriptionMeta.setAttribute("content", copy.metaDescription);
+        readmeLink.href =
+          language === "zh"
+            ? "https://github.com/Cococolins/OTPilot/blob/main/README.zh-CN.md"
+            : "https://github.com/Cococolins/OTPilot/blob/main/README.md";
 
         document.querySelectorAll("[data-i18n]").forEach((node) => {
           const key = node.getAttribute("data-i18n");
