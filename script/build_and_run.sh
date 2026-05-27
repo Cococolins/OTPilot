@@ -64,6 +64,10 @@ cat >"$INFO_PLIST" <<PLIST
 </plist>
 PLIST
 
+if command -v xattr >/dev/null 2>&1; then
+  xattr -cr "$APP_BUNDLE"
+fi
+
 if [[ -z "$SIGN_IDENTITY" ]]; then
   SIGN_IDENTITY="$(security find-identity -v -p codesigning 2>/dev/null \
     | sed -n 's/.*"\(Apple Development: .*\)".*/\1/p' \
