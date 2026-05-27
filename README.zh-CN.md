@@ -23,7 +23,7 @@ OTPilot 是一个 macOS 13+ 菜单栏小工具，用来处理短信一次性验�
 OTPilot 现在同时提供 DMG 下载和源码安装。DMG 目前还没有经过 notarization，所以第一次打开时，可能需要右键选择 Open，或到系统设置里手动允许。
 
 - macOS 13 或更新版本。
-- Mac 上已经配置 Messages，并开启短信转发或 iMessage 同步。
+- Mac 上已经配置 Messages，并开启 iMessage 同步，或在 iPhone 上为这台 Mac 打开「短信转发」。路径通常是 iPhone 设置 -> App -> Messages / 信息 -> Text Message Forwarding / 短信转发。
 - 给 OTPilot 授予 Full Disk Access 权限。
 - 如果启用 `Auto paste`，还需要授予 Accessibility 权限。
 - 如果下载 DMG：Apple Silicon 和 Intel Mac 都支持，不需要安装 Xcode 或 Command Line Tools。

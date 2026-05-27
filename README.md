@@ -23,7 +23,7 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 OTPilot is distributed as a downloadable DMG and as source code. The DMG is not notarized yet, so the first launch may require right-clicking the app and choosing `Open`, or approving it in System Settings.
 
 - macOS 13 or later.
-- Messages configured on the Mac and SMS forwarding/iMessage sync enabled.
+- Messages configured on the Mac, with iMessage sync enabled or iPhone Text Message Forwarding turned on for this Mac. On iPhone, check Settings -> Apps -> Messages -> Text Message Forwarding.
 - Full Disk Access permission for OTPilot.
 - Accessibility permission if `Auto paste` is enabled.
 - For the DMG: Apple Silicon and Intel Macs are both supported; no Xcode or Command Line Tools are required.
