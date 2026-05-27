@@ -1054,7 +1054,7 @@
         <div class="install-layout">
           <article class="install-card">
             <h3>给普通用户</h3>
-            <p>下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。首次打开若被 macOS 阻止，请右键选择 Open。</p>
+            <p>下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。</p>
             <a class="mini-link" href="https://github.com/Cococolins/OTPilot/releases/latest">
               打开最新 release
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1064,7 +1064,7 @@
           </article>
           <article class="install-card">
             <h3>给 Terminal 用户</h3>
-            <p>本机需要 Xcode 或 Apple Command Line Tools。你可以从源码安装，也可以本地构建 DMG 用于发布。</p>
+            <p>本机需要 Xcode 或 Apple Command Line Tools。`make dmg` 默认构建 Apple Silicon + Intel universal app。</p>
             <div class="code-block">
               <code>git clone https://github.com/Cococolins/OTPilot.git
 cd OTPilot

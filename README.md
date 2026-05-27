@@ -26,7 +26,7 @@ OTPilot is distributed as a downloadable DMG and as source code. The DMG is not 
 - Messages configured on the Mac and SMS forwarding/iMessage sync enabled.
 - Full Disk Access permission for OTPilot.
 - Accessibility permission if `Auto paste` is enabled.
-- For the DMG: no Xcode or Command Line Tools are required.
+- For the DMG: Apple Silicon and Intel Macs are both supported; no Xcode or Command Line Tools are required.
 - For source builds: macOS 13 SDK or later, plus Xcode or Apple Command Line Tools with `swift`, `make`, `codesign`, and standard macOS developer tools available.
 - Optional for source builds: a local Apple Development signing identity. A free Apple ID development certificate is enough for local use; a paid Developer ID certificate is only needed for polished public distribution/notarization.
 
@@ -177,6 +177,12 @@ Build a distributable DMG:
 
 ```bash
 make dmg
+```
+
+The DMG build creates a universal app by default, with both `arm64` and `x86_64` slices. To build a single-architecture DMG for local testing:
+
+```bash
+BUILD_ARCHS=arm64 make dmg
 ```
 
 Install and launch:

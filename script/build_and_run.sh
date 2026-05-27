@@ -8,6 +8,7 @@ APP_VERSION="${APP_VERSION:-1.5.1}"
 BUILD_NUMBER="${BUILD_NUMBER:-7}"
 MIN_SYSTEM_VERSION="13.0"
 BUILD_CONFIGURATION="${BUILD_CONFIGURATION:-debug}"
+BUILD_ARCHS="${BUILD_ARCHS:-}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
@@ -22,7 +23,34 @@ SIGN_IDENTITY="${SIGN_IDENTITY:-}"
 
 pkill -x "$APP_NAME" >/dev/null 2>&1 || true
 
-if [[ "$BUILD_CONFIGURATION" == "release" ]]; then
+if [[ "$BUILD_CONFIGURATION" == "release" && -n "$BUILD_ARCHS" ]]; then
+  UNIVERSAL_BUILD_DIR="$DIST_DIR/universal-build"
+  rm -rf "$UNIVERSAL_BUILD_DIR"
+  mkdir -p "$UNIVERSAL_BUILD_DIR"
+
+  BUILD_SLICES=()
+  for arch in $BUILD_ARCHS; do
+    case "$arch" in
+      arm64)
+        triple="arm64-apple-macosx$MIN_SYSTEM_VERSION"
+        ;;
+      x86_64)
+        triple="x86_64-apple-macosx$MIN_SYSTEM_VERSION"
+        ;;
+      *)
+        echo "Unsupported BUILD_ARCHS value: $arch" >&2
+        exit 2
+        ;;
+    esac
+
+    swift build -c release --triple "$triple"
+    arch_bin="$(swift build -c release --triple "$triple" --show-bin-path)/$APP_NAME"
+    BUILD_SLICES+=("$arch_bin")
+  done
+
+  BUILD_BINARY="$UNIVERSAL_BUILD_DIR/$APP_NAME"
+  /usr/bin/lipo -create "${BUILD_SLICES[@]}" -output "$BUILD_BINARY"
+elif [[ "$BUILD_CONFIGURATION" == "release" ]]; then
   swift build -c release
   BUILD_BINARY="$(swift build -c release --show-bin-path)/$APP_NAME"
 else

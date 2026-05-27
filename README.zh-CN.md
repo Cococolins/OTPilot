@@ -26,7 +26,7 @@ OTPilot 现在同时提供 DMG 下载和源码安装。DMG 目前还没有经过
 - Mac 上已经配置 Messages，并开启短信转发或 iMessage 同步。
 - 给 OTPilot 授予 Full Disk Access 权限。
 - 如果启用 `Auto paste`，还需要授予 Accessibility 权限。
-- 如果下载 DMG：不需要安装 Xcode 或 Command Line Tools。
+- 如果下载 DMG：Apple Silicon 和 Intel Mac 都支持，不需要安装 Xcode 或 Command Line Tools。
 - 如果从源码构建：需要 macOS 13 SDK 或更新版本，也需要 Xcode 或 Apple Command Line Tools，并且本机有 `swift`、`make`、`codesign` 和常规 macOS 开发工具。
 - 源码构建时可选但推荐：本机 Keychain 里有一张 Apple Development 签名证书。免费 Apple ID 的开发证书就足够本地使用；只有做更正式的公开分发和 notarization 时，才需要 Developer ID 证书。
 
@@ -177,6 +177,12 @@ make app
 
 ```bash
 make dmg
+```
+
+DMG 默认会构建 universal app，同时包含 `arm64` 和 `x86_64`。如果只是本地测试、只想构建单架构 DMG：
+
+```bash
+BUILD_ARCHS=arm64 make dmg
 ```
 
 安装并启动：
