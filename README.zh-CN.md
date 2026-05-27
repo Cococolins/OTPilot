@@ -20,15 +20,15 @@ OTPilot 是一个 macOS 13+ 菜单栏小工具，用来处理短信一次性验�
 
 ## 系统要求
 
-OTPilot 目前还没有提供经过 notarization 的预构建版本。现在建议从源码构建。
+OTPilot 现在同时提供 DMG 下载和源码安装。DMG 目前还没有经过 notarization，所以第一次打开时，可能需要右键选择 Open，或到系统设置里手动允许。
 
 - macOS 13 或更新版本。
 - Mac 上已经配置 Messages，并开启短信转发或 iMessage 同步。
 - 给 OTPilot 授予 Full Disk Access 权限。
 - 如果启用 `Auto paste`，还需要授予 Accessibility 权限。
-- macOS 13 SDK 或更新版本。
-- Xcode 或 Apple Command Line Tools，并且本机有 `swift`、`make`、`codesign` 和常规 macOS 开发工具。
-- 可选但推荐：本机 Keychain 里有一张 Apple Development 签名证书。免费 Apple ID 的开发证书就足够本地使用；只有做更正式的公开分发和 notarization 时，才需要 Developer ID 证书。
+- 如果下载 DMG：不需要安装 Xcode 或 Command Line Tools。
+- 如果从源码构建：需要 macOS 13 SDK 或更新版本，也需要 Xcode 或 Apple Command Line Tools，并且本机有 `swift`、`make`、`codesign` 和常规 macOS 开发工具。
+- 源码构建时可选但推荐：本机 Keychain 里有一张 Apple Development 签名证书。免费 Apple ID 的开发证书就足够本地使用；只有做更正式的公开分发和 notarization 时，才需要 Developer ID 证书。
 
 你可以这样检查本机工具链：
 
@@ -41,17 +41,19 @@ security find-identity -v -p codesigning
 
 ### 给不熟悉命令行的用户
 
-OTPilot 目前以源码形式分发，还不是一个经过 notarization 的 `.app` 安装包。
+推荐下载 DMG。DMG 里已经包含预构建的 app，不需要安装 Xcode、Swift 或打开 Terminal。
 
-1. 打开 [v1.5.1 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.5.1)。
-2. 下载 `OTPilot-v1.5.1-source.zip`。
-3. 解压这个文件。
-4. 打开解压后的 `OTPilot-v1.5.1` 文件夹。
-5. 双击 `Install OTPilot.command`。
+1. 打开 [latest release](https://github.com/Cococolins/OTPilot/releases/latest)。
+2. 下载 `OTPilot-v1.5.1.dmg`。
+3. 打开 DMG。
+4. 把 `OTPilot.app` 拖到 `Applications` 快捷方式里。
+5. 从 `/Applications` 打开 OTPilot。
 
-如果 macOS 提示脚本无法打开，可以右键点击 `Install OTPilot.command`，选择 `Open`，再确认打开。这个安装脚本会自动打开 Terminal，构建 OTPilot，复制到 `/Applications/OTPilot.app`，然后启动应用。
+因为这个版本还没有 notarized，macOS 第一次可能会阻止打开。如果遇到这种情况，右键点击 `OTPilot.app`，选择 Open，再确认打开。有些 macOS 版本可能还需要打开系统设置 -> Privacy & Security，点击 `Open Anyway`。
 
-如果安装脚本提示找不到 Swift 或 `make`，需要先安装 Apple Command Line Tools。按 Command-Space 打开 Spotlight，输入「终端」或 `Terminal`，打开 Terminal app，把下面这行命令复制进去，然后按 Return：
+应用打开后，请授予 Full Disk Access。如果你要使用 `Auto paste`，再授予 Accessibility。
+
+如果你仍然想从源码安装，可以下载 release 里的源码 ZIP，解压后双击 `Install OTPilot.command`。这个路径需要先安装 Apple Command Line Tools：
 
 ```bash
 xcode-select --install
@@ -163,6 +165,18 @@ G-789012 is your Google verification code
 
 ```bash
 make build
+```
+
+构建 app bundle：
+
+```bash
+make app
+```
+
+构建可发布的 DMG：
+
+```bash
+make dmg
 ```
 
 安装并启动：

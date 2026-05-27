@@ -20,15 +20,15 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 
 ## Requirements
 
-OTPilot does not provide a notarized prebuilt release yet. For now, build it from source.
+OTPilot is distributed as a downloadable DMG and as source code. The DMG is not notarized yet, so the first launch may require right-clicking the app and choosing `Open`, or approving it in System Settings.
 
 - macOS 13 or later.
 - Messages configured on the Mac and SMS forwarding/iMessage sync enabled.
 - Full Disk Access permission for OTPilot.
 - Accessibility permission if `Auto paste` is enabled.
-- macOS 13 SDK or later.
-- Xcode or Apple Command Line Tools with `swift`, `make`, `codesign`, and standard macOS developer tools available.
-- Optional but recommended: a local Apple Development signing identity. A free Apple ID development certificate is enough for local use; a paid Developer ID certificate is only needed for polished public distribution/notarization.
+- For the DMG: no Xcode or Command Line Tools are required.
+- For source builds: macOS 13 SDK or later, plus Xcode or Apple Command Line Tools with `swift`, `make`, `codesign`, and standard macOS developer tools available.
+- Optional for source builds: a local Apple Development signing identity. A free Apple ID development certificate is enough for local use; a paid Developer ID certificate is only needed for polished public distribution/notarization.
 
 Check your local toolchain with:
 
@@ -41,17 +41,19 @@ security find-identity -v -p codesigning
 
 ### For Non-Technical Users
 
-OTPilot is distributed as source code for now, not as a notarized `.app`.
+The recommended install path is the DMG. It contains a prebuilt app, so you do not need Xcode, Swift, or Terminal.
 
-1. Open the [v1.5.1 release](https://github.com/Cococolins/OTPilot/releases/tag/v1.5.1).
-2. Download `OTPilot-v1.5.1-source.zip`.
-3. Unzip the file.
-4. Open the unzipped `OTPilot-v1.5.1` folder.
-5. Double-click `Install OTPilot.command`.
+1. Open the [latest release](https://github.com/Cococolins/OTPilot/releases/latest).
+2. Download `OTPilot-v1.5.1.dmg`.
+3. Open the DMG.
+4. Drag `OTPilot.app` to the `Applications` shortcut.
+5. Open OTPilot from `/Applications`.
 
-If macOS says the script cannot be opened, right-click `Install OTPilot.command`, choose `Open`, then confirm. The installer opens Terminal, builds OTPilot, copies it to `/Applications/OTPilot.app`, and launches it.
+Because this build is not notarized yet, macOS may block the first launch. If that happens, right-click `OTPilot.app`, choose `Open`, then confirm. On some macOS versions you may need to open System Settings -> Privacy & Security and click `Open Anyway`.
 
-If the installer says Swift or `make` is missing, install Apple's Command Line Tools first. To do that, press Command-Space, type `Terminal`, open the Terminal app, paste this command, and press Return:
+After the app opens, grant Full Disk Access. Grant Accessibility only if you want `Auto paste`.
+
+If you prefer to build from source instead, download the source ZIP from the release, unzip it, and double-click `Install OTPilot.command`. That path requires Apple's Command Line Tools:
 
 ```bash
 xcode-select --install
@@ -163,6 +165,18 @@ Build only:
 
 ```bash
 make build
+```
+
+Build the app bundle:
+
+```bash
+make app
+```
+
+Build a distributable DMG:
+
+```bash
+make dmg
 ```
 
 Install and launch:

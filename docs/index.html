@@ -894,8 +894,8 @@
             OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。
           </p>
           <div class="actions">
-            <a class="button primary" href="https://github.com/Cococolins/OTPilot/releases/tag/v1.5.1">
-              获取源码包
+            <a class="button primary" href="https://github.com/Cococolins/OTPilot/releases/latest">
+              下载 DMG
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -1048,15 +1048,15 @@
 
       <section class="section install" id="install">
         <div class="section-head">
-          <h2>现在仍是源码分发。</h2>
-          <p>OTPilot 还没有 notarized 的预构建安装包。最顺滑的方式是下载 release 源码包，或从 GitHub clone 后本机构建。</p>
+          <h2>下载 DMG，拖进 Applications。</h2>
+          <p>OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。这个版本还没有 notarized，第一次打开时可能需要右键 Open 或到系统设置里允许。</p>
         </div>
         <div class="install-layout">
           <article class="install-card">
             <h3>给普通用户</h3>
-            <p>下载 release 里的源码 ZIP，解压后双击 `Install OTPilot.command`。如果 macOS 阻止打开，可以右键选择 Open。</p>
-            <a class="mini-link" href="https://github.com/Cococolins/OTPilot/releases/tag/v1.5.1">
-              打开 v1.5.1 release
+            <p>下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。首次打开若被 macOS 阻止，请右键选择 Open。</p>
+            <a class="mini-link" href="https://github.com/Cococolins/OTPilot/releases/latest">
+              打开最新 release
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -1064,11 +1064,11 @@
           </article>
           <article class="install-card">
             <h3>给 Terminal 用户</h3>
-            <p>本机需要 Xcode 或 Apple Command Line Tools。构建脚本会组装 app、签名并安装到 `/Applications/OTPilot.app`。</p>
+            <p>本机需要 Xcode 或 Apple Command Line Tools。你可以从源码安装，也可以本地构建 DMG 用于发布。</p>
             <div class="code-block">
               <code>git clone https://github.com/Cococolins/OTPilot.git
 cd OTPilot
-make install</code>
+make dmg</code>
             </div>
           </article>
         </div>

@@ -1,7 +1,13 @@
-.PHONY: build install run logs telemetry verify clean
+.PHONY: build app dmg install run logs telemetry verify clean
 
 build:
 	swift build
+
+app:
+	./script/build_and_run.sh --build-app
+
+dmg:
+	./script/package_dmg.sh
 
 install:
 	./script/build_and_run.sh --install

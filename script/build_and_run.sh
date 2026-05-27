@@ -7,6 +7,7 @@ BUNDLE_ID="${BUNDLE_ID:-app.otpilot.OTPilot}"
 APP_VERSION="${APP_VERSION:-1.5.1}"
 BUILD_NUMBER="${BUILD_NUMBER:-7}"
 MIN_SYSTEM_VERSION="13.0"
+BUILD_CONFIGURATION="${BUILD_CONFIGURATION:-debug}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"
@@ -21,8 +22,13 @@ SIGN_IDENTITY="${SIGN_IDENTITY:-}"
 
 pkill -x "$APP_NAME" >/dev/null 2>&1 || true
 
-swift build
-BUILD_BINARY="$(swift build --show-bin-path)/$APP_NAME"
+if [[ "$BUILD_CONFIGURATION" == "release" ]]; then
+  swift build -c release
+  BUILD_BINARY="$(swift build -c release --show-bin-path)/$APP_NAME"
+else
+  swift build
+  BUILD_BINARY="$(swift build --show-bin-path)/$APP_NAME"
+fi
 
 rm -rf "$APP_BUNDLE"
 mkdir -p "$APP_MACOS" "$APP_RESOURCES"
@@ -118,8 +124,11 @@ case "$MODE" in
     sleep 1
     pgrep -x "$APP_NAME" >/dev/null
     ;;
+  --build-app|build-app)
+    echo "Built $APP_BUNDLE"
+    ;;
   *)
-    echo "usage: $0 [run|--install|--debug|--logs|--telemetry|--verify]" >&2
+    echo "usage: $0 [run|--install|--debug|--logs|--telemetry|--verify|--build-app]" >&2
     exit 2
     ;;
 esac
