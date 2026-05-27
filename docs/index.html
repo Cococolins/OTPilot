@@ -280,20 +280,24 @@
 
       .product-stage {
         position: relative;
+        justify-self: end;
+        width: min(100%, 600px);
         min-height: 560px;
       }
 
       .browser-window {
         position: absolute;
-        right: 0;
-        bottom: 20px;
-        z-index: 2;
-        width: min(560px, 100%);
+        right: 26px;
+        bottom: 42px;
+        z-index: 3;
+        width: 500px;
         border: 1px solid var(--line);
         border-radius: 18px;
         overflow: hidden;
         background: #ffffff;
         box-shadow: var(--shadow);
+        transform: scale(0.8);
+        transform-origin: bottom right;
       }
 
       .browser-top {
@@ -388,15 +392,17 @@
 
       .menu-panel {
         position: absolute;
-        top: 18px;
-        left: 4px;
-        z-index: 3;
-        width: 360px;
+        top: 34px;
+        left: 0;
+        z-index: 2;
+        width: 320px;
         border: 1px solid rgba(196, 205, 214, 0.92);
         border-radius: 18px;
         background: rgba(247, 248, 249, 0.96);
         box-shadow: 0 22px 60px rgba(17, 37, 65, 0.18);
         backdrop-filter: blur(20px);
+        transform: scale(0.82);
+        transform-origin: top left;
       }
 
       .menu-panel::before {
@@ -414,7 +420,7 @@
 
       .panel-inner {
         position: relative;
-        padding: 22px;
+        padding: 18px;
       }
 
       .panel-head {
@@ -431,7 +437,7 @@
       }
 
       .panel-title {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 740;
       }
 
@@ -451,7 +457,7 @@
 
       .panel-count strong {
         display: block;
-        font-size: 26px;
+        font-size: 24px;
         line-height: 1;
         font-weight: 760;
       }
@@ -476,8 +482,8 @@
         grid-template-columns: 42px 1fr;
         gap: 13px;
         align-items: center;
-        margin-top: 22px;
-        padding: 18px 0;
+        margin-top: 18px;
+        padding: 16px 0;
         border-top: 1px solid var(--line);
         border-bottom: 1px solid var(--line);
         border-radius: 8px;
@@ -493,7 +499,7 @@
       .code-value {
         margin-top: 4px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 740;
         letter-spacing: 0.08em;
       }
@@ -515,8 +521,8 @@
       .panel-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 18px;
-        margin-top: 20px;
+        gap: 14px;
+        margin-top: 18px;
       }
 
       .panel-button {
@@ -524,12 +530,12 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        height: 44px;
+        height: 40px;
         border: 1px solid var(--line);
         border-radius: 8px;
         background: #ffffff;
         color: #4b525a;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 720;
       }
 
@@ -550,17 +556,17 @@
         grid-template-columns: 34px 1fr auto;
         align-items: center;
         gap: 12px;
-        margin-top: 14px;
+        margin-top: 12px;
         color: #424950;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 660;
       }
 
       .panel-list {
         display: grid;
-        gap: 12px;
-        margin-top: 20px;
-        padding-top: 18px;
+        gap: 11px;
+        margin-top: 18px;
+        padding-top: 16px;
         border-top: 1px solid var(--line);
       }
 
@@ -570,7 +576,7 @@
         align-items: center;
         gap: 12px;
         color: #424950;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 680;
       }
 
@@ -603,10 +609,10 @@
 
       .sms-bubble {
         position: absolute;
-        right: 32px;
-        top: 22px;
-        z-index: 1;
-        max-width: 250px;
+        right: -6px;
+        top: 34px;
+        z-index: 4;
+        max-width: 270px;
         padding: 14px 16px;
         border: 1px solid #b9ddc8;
         border-radius: 18px 18px 6px 18px;
@@ -920,6 +926,7 @@
           left: auto;
           width: 100%;
           margin-bottom: 16px;
+          transform: none;
         }
 
         .menu-panel::before {
@@ -931,6 +938,7 @@
           right: auto;
           bottom: auto;
           width: 100%;
+          transform: none;
         }
 
         .browser-content {
@@ -1032,7 +1040,7 @@
         </div>
 
         <div class="product-stage" aria-label="OTPilot product preview">
-          <div class="sms-bubble" data-i18n="mock.sms">【某网站】登录验证码：0817，20 分钟内有效。</div>
+          <div class="sms-bubble" data-i18n="mock.sms">【Love Wins】登录验证码：0817，20 分钟内有效。</div>
 
           <div class="menu-panel">
             <div class="panel-inner">
@@ -1181,7 +1189,7 @@
           <div class="permission-copy">
             <h2 data-i18n="privacy.title">权限保持透明。</h2>
             <p data-i18n="privacy.copy">
-              这是一个本机工具，所以权限边界应该清楚。OTPilot 不显示验证码通知，不上传短信内容，也不会在没有输入焦点时盲目粘贴。
+              这是一个本机工具，所以权限边界应该清楚。OTPilot 代码开源可审查，核心流程留在本机，不上传短信内容，也不会在没有输入焦点时盲目粘贴。
             </p>
           </div>
           <div class="permission-list">
@@ -1216,6 +1224,17 @@
               <div>
                 <h3>Notifications</h3>
                 <p data-i18n="privacy.notifications.copy">可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。</p>
+              </div>
+            </article>
+            <article class="permission-item">
+              <div class="permission-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 data-i18n="privacy.source.title">Open source</h3>
+                <p data-i18n="privacy.source.copy">代码可以直接审查。当前应用没有网络同步或分析逻辑；短信解析、复制和粘贴都在本机完成。</p>
               </div>
             </article>
           </div>
@@ -1281,7 +1300,7 @@ make dmg</code>
           "note.templates.copy": "支持常见英文、简体中文和繁体中文验证码格式。",
           "note.menubar.title": "菜单栏常驻",
           "note.menubar.copy": "没有 Dock 图标，打开后默认开始监测新消息。",
-          "mock.sms": "【某网站】登录验证码：0817，20 分钟内有效。",
+          "mock.sms": "【Love Wins】登录验证码：0817，20 分钟内有效。",
           "mock.loginTitle": "输入验证码",
           "mock.loginCopy": "验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。",
           "panel.status": "正在监测",
@@ -1302,10 +1321,12 @@ make dmg</code>
           "step.paste.title": "复制，或粘贴",
           "step.paste.copy": "检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。",
           "privacy.title": "权限保持透明。",
-          "privacy.copy": "这是一个本机工具，所以权限边界应该清楚。OTPilot 不显示验证码通知，不上传短信内容，也不会在没有输入焦点时盲目粘贴。",
+          "privacy.copy": "这是一个本机工具，所以权限边界应该清楚。OTPilot 代码开源可审查，核心流程留在本机，不上传短信内容，也不会在没有输入焦点时盲目粘贴。",
           "privacy.fda.copy": "用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。",
           "privacy.ax.copy": "只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。",
           "privacy.notifications.copy": "可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。",
+          "privacy.source.title": "代码开源",
+          "privacy.source.copy": "代码可以直接审查。当前应用没有网络同步或分析逻辑；短信解析、复制和粘贴都在本机完成。",
           "install.title": "下载 DMG，拖进 Applications。",
           "install.copy": "OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。这个版本还没有 notarized，第一次打开时可能需要右键 Open 或到系统设置里允许。",
           "install.users.title": "给普通用户",
@@ -1334,7 +1355,7 @@ make dmg</code>
           "note.templates.copy": "Handles common English, Simplified Chinese, and Traditional Chinese verification-code formats.",
           "note.menubar.title": "Menu bar first",
           "note.menubar.copy": "No Dock icon. It starts monitoring new messages when the app opens.",
-          "mock.sms": "Your verification code is 0817. It expires in 20 minutes.",
+          "mock.sms": "Love Wins verification code is 0817. It expires in 20 minutes.",
           "mock.loginTitle": "Enter verification code",
           "mock.loginCopy": "The code was sent to your phone. OTPilot can copy it, or paste it when the field is focused.",
           "panel.status": "Monitoring",
@@ -1355,10 +1376,12 @@ make dmg</code>
           "step.paste.title": "Copies, or pastes",
           "step.paste.copy": "When a code is detected, OTPilot copies it to the clipboard. If Auto paste is enabled and an editable field is focused, it sends Command-V.",
           "privacy.title": "Permissions stay explicit.",
-          "privacy.copy": "This is a local utility, so the boundary should be clear. OTPilot does not show codes in notifications, does not upload message content, and does not blindly paste when no editable field is focused.",
+          "privacy.copy": "This is a local utility, so the boundary should be clear. OTPilot is open source, keeps the core flow on your Mac, does not upload message content, and does not blindly paste when no editable field is focused.",
           "privacy.fda.copy": "Required to read the local Messages database. This is how macOS protects `chat.db`.",
           "privacy.ax.copy": "Only needed for Auto paste. It checks whether the focused element is editable and sends Command-V.",
           "privacy.notifications.copy": "Optional. Used only when a code was copied but not pasted, without showing the code or sender.",
+          "privacy.source.title": "Open source",
+          "privacy.source.copy": "The code is available for review. The current app has no network sync or analytics logic; parsing, copying, and pasting happen locally.",
           "install.title": "Download the DMG. Drag to Applications.",
           "install.copy": "OTPilot ships as a prebuilt DMG, so regular users do not need Xcode. It is not notarized yet, so first launch may require right-clicking Open or approving it in System Settings.",
           "install.users.title": "For regular users",
