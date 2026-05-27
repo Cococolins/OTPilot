@@ -115,7 +115,7 @@
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 18px;
         color: var(--muted);
         font-size: 14px;
         font-weight: 520;
@@ -136,6 +136,28 @@
         color: var(--text);
         background: #ffffff;
         box-shadow: 0 8px 22px rgba(23, 39, 61, 0.07);
+      }
+
+      .lang-switch {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        min-height: 34px;
+        padding: 0 11px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--muted);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 680;
+        cursor: pointer;
+      }
+
+      .lang-switch:hover {
+        color: var(--text);
+        border-color: var(--line-strong);
       }
 
       main {
@@ -878,9 +900,10 @@
           <span>OTPilot</span>
         </a>
         <div class="nav-links">
-          <a href="#workflow">工作方式</a>
-          <a href="#privacy">权限</a>
-          <a href="#install">安装</a>
+          <a href="#workflow" data-i18n="nav.workflow">工作方式</a>
+          <a href="#privacy" data-i18n="nav.privacy">权限</a>
+          <a href="#install" data-i18n="nav.install">安装</a>
+          <button class="lang-switch" type="button" data-language-toggle aria-label="Switch language">EN</button>
           <a class="nav-cta" href="https://github.com/Cococolins/OTPilot">GitHub</a>
         </div>
       </nav>
@@ -889,19 +912,19 @@
     <main>
       <section class="section hero">
         <div class="hero-copy">
-          <h1>让验证码自己到位。</h1>
-          <p>
+          <h1 data-i18n="hero.title">让验证码自己到位。</h1>
+          <p data-i18n="hero.copy">
             OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。
           </p>
           <div class="actions">
             <a class="button primary" href="https://github.com/Cococolins/OTPilot/releases/latest">
-              下载 DMG
+              <span data-i18n="hero.primary">下载 DMG</span>
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </a>
             <a class="button secondary" href="https://github.com/Cococolins/OTPilot">
-              查看 GitHub
+              <span data-i18n="hero.secondary">查看 GitHub</span>
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -909,22 +932,22 @@
           </div>
           <div class="hero-notes" aria-label="Highlights">
             <div class="note">
-              <strong>本机处理</strong>
-              <span>直接读取 Mac 上的 Messages 数据库，不经过云端服务。</span>
+              <strong data-i18n="note.local.title">本机处理</strong>
+              <span data-i18n="note.local.copy">直接读取 Mac 上的 Messages 数据库，不经过云端服务。</span>
             </div>
             <div class="note">
-              <strong>中英模板</strong>
-              <span>支持常见英文、简体中文和繁体中文验证码格式。</span>
+              <strong data-i18n="note.templates.title">中英模板</strong>
+              <span data-i18n="note.templates.copy">支持常见英文、简体中文和繁体中文验证码格式。</span>
             </div>
             <div class="note">
-              <strong>菜单栏常驻</strong>
-              <span>没有 Dock 图标，打开后默认开始监测新消息。</span>
+              <strong data-i18n="note.menubar.title">菜单栏常驻</strong>
+              <span data-i18n="note.menubar.copy">没有 Dock 图标，打开后默认开始监测新消息。</span>
             </div>
           </div>
         </div>
 
         <div class="product-stage" aria-label="OTPilot product preview">
-          <div class="sms-bubble">【豆瓣网】豆瓣登录验证码：2463，20 分钟内有效。</div>
+          <div class="sms-bubble" data-i18n="mock.sms">【豆瓣网】豆瓣登录验证码：2463，20 分钟内有效。</div>
 
           <div class="menu-panel">
             <div class="panel-inner">
@@ -959,8 +982,8 @@
             </div>
             <div class="browser-content">
               <div class="login-panel">
-                <div class="login-title">输入验证码</div>
-                <p class="login-copy">验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。</p>
+                <div class="login-title" data-i18n="mock.loginTitle">输入验证码</div>
+                <p class="login-copy" data-i18n="mock.loginCopy">验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。</p>
                 <div class="otp-row" aria-label="verification code">
                   <div class="otp-box">2</div>
                   <div class="otp-box">4</div>
@@ -978,24 +1001,24 @@
 
       <section class="section workflow" id="workflow">
         <div class="section-head">
-          <h2>它做的事情很少，也正因为如此可靠。</h2>
-          <p>OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。</p>
+          <h2 data-i18n="workflow.title">它做的事情很少，也正因为如此可靠。</h2>
+          <p data-i18n="workflow.copy">OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。</p>
         </div>
         <div class="steps">
           <article class="step">
             <div class="step-number">1</div>
-            <h3>监测 Messages</h3>
-            <p>应用启动后从最新消息开始读取，只处理之后进入 `~/Library/Messages/chat.db` 的 SMS / iMessage 记录。</p>
+            <h3 data-i18n="step.watch.title">监测 Messages</h3>
+            <p data-i18n="step.watch.copy">应用启动后从最新消息开始读取，只处理之后进入 `~/Library/Messages/chat.db` 的 SMS / iMessage 记录。</p>
           </article>
           <article class="step">
             <div class="step-number">2</div>
-            <h3>提取候选验证码</h3>
-            <p>解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，并按质量排序。</p>
+            <h3 data-i18n="step.extract.title">提取候选验证码</h3>
+            <p data-i18n="step.extract.copy">解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，并按质量排序。</p>
           </article>
           <article class="step">
             <div class="step-number">3</div>
-            <h3>复制，或粘贴</h3>
-            <p>检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。</p>
+            <h3 data-i18n="step.paste.title">复制，或粘贴</h3>
+            <p data-i18n="step.paste.copy">检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。</p>
           </article>
         </div>
       </section>
@@ -1003,8 +1026,8 @@
       <section class="permissions" id="privacy">
         <div class="section permission-grid">
           <div class="permission-copy">
-            <h2>权限保持透明。</h2>
-            <p>
+            <h2 data-i18n="privacy.title">权限保持透明。</h2>
+            <p data-i18n="privacy.copy">
               这是一个本机工具，所以权限边界应该清楚。OTPilot 不显示验证码通知，不上传短信内容，也不会在没有输入焦点时盲目粘贴。
             </p>
           </div>
@@ -1017,7 +1040,7 @@
               </div>
               <div>
                 <h3>Full Disk Access</h3>
-                <p>用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。</p>
+                <p data-i18n="privacy.fda.copy">用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。</p>
               </div>
             </article>
             <article class="permission-item">
@@ -1028,7 +1051,7 @@
               </div>
               <div>
                 <h3>Accessibility</h3>
-                <p>只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。</p>
+                <p data-i18n="privacy.ax.copy">只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。</p>
               </div>
             </article>
             <article class="permission-item">
@@ -1039,7 +1062,7 @@
               </div>
               <div>
                 <h3>Notifications</h3>
-                <p>可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。</p>
+                <p data-i18n="privacy.notifications.copy">可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。</p>
               </div>
             </article>
           </div>
@@ -1048,23 +1071,23 @@
 
       <section class="section install" id="install">
         <div class="section-head">
-          <h2>下载 DMG，拖进 Applications。</h2>
-          <p>OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。这个版本还没有 notarized，第一次打开时可能需要右键 Open 或到系统设置里允许。</p>
+          <h2 data-i18n="install.title">下载 DMG，拖进 Applications。</h2>
+          <p data-i18n="install.copy">OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。这个版本还没有 notarized，第一次打开时可能需要右键 Open 或到系统设置里允许。</p>
         </div>
         <div class="install-layout">
           <article class="install-card">
-            <h3>给普通用户</h3>
-            <p>下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。</p>
+            <h3 data-i18n="install.users.title">给普通用户</h3>
+            <p data-i18n="install.users.copy">下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。</p>
             <a class="mini-link" href="https://github.com/Cococolins/OTPilot/releases/latest">
-              打开最新 release
+              <span data-i18n="install.release">打开最新 release</span>
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </a>
           </article>
           <article class="install-card">
-            <h3>给 Terminal 用户</h3>
-            <p>本机需要 Xcode 或 Apple Command Line Tools。`make dmg` 默认构建 Apple Silicon + Intel universal app。</p>
+            <h3 data-i18n="install.terminal.title">给 Terminal 用户</h3>
+            <p data-i18n="install.terminal.copy">本机需要 Xcode 或 Apple Command Line Tools。`make dmg` 默认构建 Apple Silicon + Intel universal app。</p>
             <div class="code-block">
               <code>git clone https://github.com/Cococolins/OTPilot.git
 cd OTPilot
@@ -1077,12 +1100,144 @@ make dmg</code>
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <span>OTPilot is released under the MIT License.</span>
+        <span data-i18n="footer.license">OTPilot is released under the MIT License.</span>
         <div class="footer-links">
           <a href="https://github.com/Cococolins/OTPilot">GitHub</a>
           <a href="https://github.com/Cococolins/OTPilot/blob/main/README.zh-CN.md">README</a>
         </div>
       </div>
     </footer>
+    <script>
+      const translations = {
+        zh: {
+          metaTitle: "OTPilot - macOS 验证码菜单栏工具",
+          metaDescription: "OTPilot 是一个轻量 macOS 菜单栏工具，为 Dia、Chrome、Arc 等浏览器提供接近 Safari 的短信验证码体验。",
+          ogDescription: "一个轻量 macOS 菜单栏工具：读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择自动粘贴到当前输入框。",
+          toggleLabel: "EN",
+          toggleAria: "Switch to English",
+          "nav.workflow": "工作方式",
+          "nav.privacy": "权限",
+          "nav.install": "安装",
+          "hero.title": "让验证码自己到位。",
+          "hero.copy": "OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。",
+          "hero.primary": "下载 DMG",
+          "hero.secondary": "查看 GitHub",
+          "note.local.title": "本机处理",
+          "note.local.copy": "直接读取 Mac 上的 Messages 数据库，不经过云端服务。",
+          "note.templates.title": "中英模板",
+          "note.templates.copy": "支持常见英文、简体中文和繁体中文验证码格式。",
+          "note.menubar.title": "菜单栏常驻",
+          "note.menubar.copy": "没有 Dock 图标，打开后默认开始监测新消息。",
+          "mock.sms": "【豆瓣网】豆瓣登录验证码：2463，20 分钟内有效。",
+          "mock.loginTitle": "输入验证码",
+          "mock.loginCopy": "验证码已发送到你的手机。OTPilot 可以复制它，或在输入框聚焦时直接粘贴。",
+          "workflow.title": "它做的事情很少，也正因为如此可靠。",
+          "workflow.copy": "OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。",
+          "step.watch.title": "监测 Messages",
+          "step.watch.copy": "应用启动后从最新消息开始读取，只处理之后进入 `~/Library/Messages/chat.db` 的 SMS / iMessage 记录。",
+          "step.extract.title": "提取候选验证码",
+          "step.extract.copy": "解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，并按质量排序。",
+          "step.paste.title": "复制，或粘贴",
+          "step.paste.copy": "检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。",
+          "privacy.title": "权限保持透明。",
+          "privacy.copy": "这是一个本机工具，所以权限边界应该清楚。OTPilot 不显示验证码通知，不上传短信内容，也不会在没有输入焦点时盲目粘贴。",
+          "privacy.fda.copy": "用于读取本机 Messages 数据库。这是 macOS 隐私系统对 `chat.db` 的要求。",
+          "privacy.ax.copy": "只有在启用 Auto paste 时需要，用来确认当前焦点是否可编辑，并发送 Command-V。",
+          "privacy.notifications.copy": "可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。",
+          "install.title": "下载 DMG，拖进 Applications。",
+          "install.copy": "OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。这个版本还没有 notarized，第一次打开时可能需要右键 Open 或到系统设置里允许。",
+          "install.users.title": "给普通用户",
+          "install.users.copy": "下载 release 里的 `OTPilot-v1.5.1.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。",
+          "install.release": "打开最新 release",
+          "install.terminal.title": "给 Terminal 用户",
+          "install.terminal.copy": "本机需要 Xcode 或 Apple Command Line Tools。`make dmg` 默认构建 Apple Silicon + Intel universal app。",
+          "footer.license": "OTPilot is released under the MIT License."
+        },
+        en: {
+          metaTitle: "OTPilot - SMS code helper for macOS",
+          metaDescription: "OTPilot is a lightweight macOS menu bar app that brings Safari-like SMS code autofill to Dia, Chrome, Arc, and other browsers.",
+          ogDescription: "A lightweight macOS menu bar app that reads new verification codes from local Messages, copies them to the clipboard, and can paste them into the focused field.",
+          toggleLabel: "中",
+          toggleAria: "切换到中文",
+          "nav.workflow": "How it works",
+          "nav.privacy": "Permissions",
+          "nav.install": "Install",
+          "hero.title": "Let codes land where you need them.",
+          "hero.copy": "OTPilot is a small macOS menu bar utility. It reads new SMS verification codes from local Messages, copies them to the clipboard, and can paste them into the focused field, bringing Safari-like code filling to Dia, Chrome, and Arc.",
+          "hero.primary": "Download DMG",
+          "hero.secondary": "View on GitHub",
+          "note.local.title": "Local by design",
+          "note.local.copy": "Reads the Messages database on your Mac directly. No cloud service sits in the middle.",
+          "note.templates.title": "English and Chinese",
+          "note.templates.copy": "Handles common English, Simplified Chinese, and Traditional Chinese verification-code formats.",
+          "note.menubar.title": "Menu bar first",
+          "note.menubar.copy": "No Dock icon. It starts monitoring new messages when the app opens.",
+          "mock.sms": "Your verification code is 2463. It expires in 20 minutes.",
+          "mock.loginTitle": "Enter verification code",
+          "mock.loginCopy": "The code was sent to your phone. OTPilot can copy it, or paste it when the field is focused.",
+          "workflow.title": "It does very little, which is why it stays reliable.",
+          "workflow.copy": "OTPilot does not take over your browser or inject scripts into web pages. When a new message arrives, it detects the code and leaves the rest to the macOS clipboard and the current app's paste behavior.",
+          "step.watch.title": "Watches Messages",
+          "step.watch.copy": "On launch, OTPilot starts from the newest message and only reads new SMS / iMessage rows added to `~/Library/Messages/chat.db`.",
+          "step.extract.title": "Extracts likely codes",
+          "step.extract.copy": "The parser finds verification keywords, enumerates nearby 4-8 character candidates, filters URLs, dates, and times, then ranks the best match.",
+          "step.paste.title": "Copies, or pastes",
+          "step.paste.copy": "When a code is detected, OTPilot copies it to the clipboard. If Auto paste is enabled and an editable field is focused, it sends Command-V.",
+          "privacy.title": "Permissions stay explicit.",
+          "privacy.copy": "This is a local utility, so the boundary should be clear. OTPilot does not show codes in notifications, does not upload message content, and does not blindly paste when no editable field is focused.",
+          "privacy.fda.copy": "Required to read the local Messages database. This is how macOS protects `chat.db`.",
+          "privacy.ax.copy": "Only needed for Auto paste. It checks whether the focused element is editable and sends Command-V.",
+          "privacy.notifications.copy": "Optional. Used only when a code was copied but not pasted, without showing the code or sender.",
+          "install.title": "Download the DMG. Drag to Applications.",
+          "install.copy": "OTPilot ships as a prebuilt DMG, so regular users do not need Xcode. It is not notarized yet, so first launch may require right-clicking Open or approving it in System Settings.",
+          "install.users.title": "For regular users",
+          "install.users.copy": "Download `OTPilot-v1.5.1.dmg` from the release, open it, and drag `OTPilot.app` to Applications. Both Apple Silicon and Intel Macs are supported.",
+          "install.release": "Open latest release",
+          "install.terminal.title": "For Terminal users",
+          "install.terminal.copy": "Xcode or Apple Command Line Tools are required. `make dmg` builds an Apple Silicon + Intel universal app by default.",
+          "footer.license": "OTPilot is released under the MIT License."
+        }
+      };
+
+      const languageToggle = document.querySelector("[data-language-toggle]");
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+      const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
+      const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
+      const twitterDescriptionMeta = document.querySelector('meta[name="twitter:description"]');
+
+      function preferredLanguage() {
+        const saved = localStorage.getItem("otpilot-language");
+        if (saved === "zh" || saved === "en") return saved;
+        return navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en";
+      }
+
+      function setLanguage(language) {
+        const copy = translations[language];
+        document.documentElement.lang = language === "zh" ? "zh-Hans" : "en";
+        document.title = copy.metaTitle;
+        descriptionMeta.setAttribute("content", copy.metaDescription);
+        ogTitleMeta.setAttribute("content", copy.metaTitle);
+        ogDescriptionMeta.setAttribute("content", copy.ogDescription);
+        twitterTitleMeta.setAttribute("content", copy.metaTitle);
+        twitterDescriptionMeta.setAttribute("content", copy.metaDescription);
+
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.getAttribute("data-i18n");
+          if (copy[key]) node.textContent = copy[key];
+        });
+
+        languageToggle.textContent = copy.toggleLabel;
+        languageToggle.setAttribute("aria-label", copy.toggleAria);
+        localStorage.setItem("otpilot-language", language);
+      }
+
+      languageToggle.addEventListener("click", () => {
+        const next = document.documentElement.lang === "en" ? "zh" : "en";
+        setLanguage(next);
+      });
+
+      setLanguage(preferredLanguage());
+    </script>
   </body>
 </html>
