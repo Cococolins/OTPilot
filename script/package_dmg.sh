@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_NAME="OTPilot"
-APP_VERSION="${APP_VERSION:-1.5.1}"
+APP_VERSION="${APP_VERSION:-1.6.0}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIST_DIR="$ROOT_DIR/dist"

@@ -9,9 +9,11 @@ struct SettingsView: View {
     @State private var launchAtLoginEnabled = false
     @State private var launchAtLoginStatus = LaunchAtLoginService.statusLabel
     @State private var launchAtLoginError: String?
+    @State private var fdaGranted = PermissionService.hasFullDiskAccess
+    @State private var a11yGranted = PermissionService.hasAccessibilityAccess
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             SettingsHeader(versionText: appVersionText)
 
             SettingsSection(title: languageStore.string(.detection)) {
@@ -50,10 +52,10 @@ struct SettingsView: View {
 
             SettingsSection(title: languageStore.string(.permissions)) {
                 SettingsLineGroup {
-                    SettingsButtonRow(title: languageStore.string(.openFullDiskAccess)) {
+                    SettingsButtonRow(title: languageStore.string(.openFullDiskAccess), isGranted: fdaGranted) {
                         PermissionService.openFullDiskAccessSettings()
                     }
-                    SettingsButtonRow(title: languageStore.string(.openAccessibility)) {
+                    SettingsButtonRow(title: languageStore.string(.openAccessibility), isGranted: a11yGranted) {
                         PermissionService.openAccessibilitySettings()
                         monitor.requestAccessibilityPermission()
                     }
@@ -75,6 +77,8 @@ struct SettingsView: View {
         }
         .onAppear {
             refreshLaunchAtLogin()
+            fdaGranted = PermissionService.hasFullDiskAccess
+            a11yGranted = PermissionService.hasAccessibilityAccess
             isFocusSinkFocused = true
         }
     }
@@ -274,6 +278,7 @@ private struct SettingsPickerRow<Label: Hashable & CaseIterable & Identifiable>:
 
 private struct SettingsButtonRow: View {
     let title: String
+    var isGranted: Bool? = nil
     let action: () -> Void
 
     var body: some View {
@@ -283,10 +288,21 @@ private struct SettingsButtonRow: View {
                     .foregroundStyle(.primary)
 
                 Spacer(minLength: 0)
+
+                if let isGranted {
+                    Circle()
+                        .fill(isGranted ? Color.green : Color.orange)
+                        .frame(width: 8, height: 8)
+                }
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .frame(height: 30)
+        .accessibilityAddTraits(.isButton)
     }
 }

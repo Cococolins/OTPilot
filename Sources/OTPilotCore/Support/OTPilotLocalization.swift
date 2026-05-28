@@ -64,9 +64,15 @@ public enum OTPilotLocalizationKey: Sendable {
     case permissions
     case quit
     case reset
+    case codesUnit
+    case justNow
+    case minutesAgo
+    case permissionGranted
+    case permissionMissing
     case restoreClipboard
     case restoreClipboardAfterDelay
     case restoreClipboardHelp
+    case secondsAgo
     case settings
     case settingsWindowTitle
     case start
@@ -162,6 +168,16 @@ public enum OTPilotLocalization {
             return "Open Full Disk Access"
         case .permissions:
             return "Permissions"
+        case .codesUnit:
+            return "codes"
+        case .justNow:
+            return "just now"
+        case .minutesAgo:
+            return "%dm ago"
+        case .permissionGranted:
+            return "Granted"
+        case .permissionMissing:
+            return "Not granted"
         case .quit:
             return "Quit"
         case .reset:
@@ -172,6 +188,8 @@ public enum OTPilotLocalization {
             return "Restore previous clipboard after 45 seconds"
         case .restoreClipboardHelp:
             return "After copying a code, OTPilot restores your previous clipboard after 45 seconds."
+        case .secondsAgo:
+            return "%ds ago"
         case .settings:
             return "Settings"
         case .settingsWindowTitle:
@@ -251,6 +269,16 @@ public enum OTPilotLocalization {
             return "打开完全磁盘访问权限"
         case .permissions:
             return "权限"
+        case .codesUnit:
+            return "次"
+        case .justNow:
+            return "刚刚"
+        case .minutesAgo:
+            return "%d 分钟前"
+        case .permissionGranted:
+            return "已授权"
+        case .permissionMissing:
+            return "未授权"
         case .quit:
             return "退出"
         case .reset:
@@ -261,6 +289,8 @@ public enum OTPilotLocalization {
             return "45 秒后恢复原剪贴板"
         case .restoreClipboardHelp:
             return "复制验证码后，OTPilot 会在 45 秒后把之前的剪贴板内容恢复回来。"
+        case .secondsAgo:
+            return "%d 秒前"
         case .settings:
             return "设置"
         case .settingsWindowTitle:
