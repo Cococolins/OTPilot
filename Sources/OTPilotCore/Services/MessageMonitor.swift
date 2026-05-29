@@ -6,9 +6,13 @@ import os
 public final class MessageMonitor: ObservableObject {
     @Published public private(set) var state: MonitorState = .idle
     @Published public private(set) var lastDetection: DetectedOTP?
+    @Published public private(set) var recentDetections: [DetectedOTP] = []
     @Published public private(set) var detectedCount: Int
     @Published public var autoPasteEnabled: Bool {
         didSet { userDefaults.set(autoPasteEnabled, forKey: Keys.autoPasteEnabled) }
+    }
+    @Published public var pressEnterAfterPasteEnabled: Bool {
+        didSet { userDefaults.set(pressEnterAfterPasteEnabled, forKey: Keys.pressEnterAfterPasteEnabled) }
     }
     @Published public var restoreClipboardEnabled: Bool {
         didSet { userDefaults.set(restoreClipboardEnabled, forKey: Keys.restoreClipboardEnabled) }
@@ -21,6 +25,7 @@ public final class MessageMonitor: ObservableObject {
         static let lastRowID = "lastRowID"
         static let detectedCount = "detectedCount"
         static let autoPasteEnabled = "autoPasteEnabled"
+        static let pressEnterAfterPasteEnabled = "pressEnterAfterPasteEnabled"
         static let restoreClipboardEnabled = "restoreClipboardEnabled"
         static let startMonitoringOnLaunch = "startMonitoringOnLaunch"
     }
@@ -52,6 +57,7 @@ public final class MessageMonitor: ObservableObject {
         self.lastRowID = Int64(userDefaults.integer(forKey: Keys.lastRowID))
         self.detectedCount = userDefaults.integer(forKey: Keys.detectedCount)
         self.autoPasteEnabled = userDefaults.object(forKey: Keys.autoPasteEnabled) as? Bool ?? false
+        self.pressEnterAfterPasteEnabled = userDefaults.object(forKey: Keys.pressEnterAfterPasteEnabled) as? Bool ?? false
         self.restoreClipboardEnabled = userDefaults.object(forKey: Keys.restoreClipboardEnabled) as? Bool ?? true
         self.startMonitoringOnLaunch = userDefaults.object(forKey: Keys.startMonitoringOnLaunch) as? Bool ?? true
     }
@@ -132,6 +138,7 @@ public final class MessageMonitor: ObservableObject {
     public func resetStats() {
         detectedCount = 0
         lastDetection = nil
+        recentDetections = []
         userDefaults.set(detectedCount, forKey: Keys.detectedCount)
     }
 
@@ -139,7 +146,11 @@ public final class MessageMonitor: ObservableObject {
         guard let lastDetection else {
             return
         }
-        clipboard.copy(lastDetection.code, restorePreviousAfter: restoreClipboardEnabled ? 45 : nil)
+        copy(detection: lastDetection)
+    }
+
+    public func copy(detection: DetectedOTP) {
+        clipboard.copy(detection.code, restorePreviousAfter: restoreClipboardEnabled ? 45 : nil)
     }
 
     public func requestAccessibilityPermission() {
@@ -159,13 +170,17 @@ public final class MessageMonitor: ObservableObject {
         let detection = DetectedOTP(code: code, sender: message.sender, rowID: message.rowID)
 
         lastDetection = detection
+        recentDetections.insert(detection, at: 0)
+        recentDetections = Array(recentDetections.prefix(6))
         detectedCount += 1
         userDefaults.set(detectedCount, forKey: Keys.detectedCount)
 
         clipboard.copy(code, restorePreviousAfter: restoreClipboardEnabled ? 45 : nil)
         logger.info("Detected OTP rowID \(message.rowID, privacy: .public); autoPaste=\(self.autoPasteEnabled, privacy: .public); accessibilityTrusted=\(self.autoPaste.isAccessibilityTrusted, privacy: .public)")
 
-        let pasteResult: AutoPasteService.PasteResult = autoPasteEnabled ? autoPaste.pasteIntoFocusedField(code) : .failed
+        let pasteResult: AutoPasteService.PasteResult = autoPasteEnabled
+            ? autoPaste.pasteIntoFocusedField(code, pressEnterAfterPaste: pressEnterAfterPasteEnabled)
+            : .failed
         if pasteResult.shouldShowCopiedNotification {
             notifications.showCopiedCode(detection)
         }
