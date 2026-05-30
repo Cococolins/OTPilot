@@ -13,6 +13,7 @@ OTPilot 是一个 macOS 13+ 菜单栏小工具，用来处理短信一次性验�
 - 支持常见英文和中文验证码短信格式。
 - 检测到验证码后自动复制到剪贴板。
 - 可选自动粘贴，也就是发送 Command-V。
+- 可选自动粘贴后发送一次回车。
 - 可选在 45 秒后恢复原剪贴板内容。
 - 当验证码只被复制、仍需手动粘贴时，显示通知反馈。
 - 可选开机登录时启动。
@@ -44,7 +45,7 @@ security find-identity -v -p codesigning
 推荐下载 DMG。DMG 里已经包含预构建的 app，不需要安装 Xcode、Swift 或打开 Terminal。
 
 1. 打开 [latest release](https://github.com/Cococolins/OTPilot/releases/latest)。
-2. 下载 `OTPilot-v1.5.1.dmg`。
+2. 下载 `OTPilot-v1.7.0.dmg`。
 3. 打开 DMG。
 4. 把 `OTPilot.app` 拖到 `Applications` 快捷方式里。
 5. 从 `/Applications` 打开 OTPilot。
