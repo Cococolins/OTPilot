@@ -43,6 +43,7 @@ public enum OTPilotLocalizationKey: Sendable {
     case autoPasteAfterCopy
     case autoPasteHelp
     case copy
+    case copyVerificationCode
     case detectedCodes
     case detection
     case disabled
@@ -53,6 +54,7 @@ public enum OTPilotLocalizationKey: Sendable {
     case language
     case languageSystem
     case messagesDatabaseNotFound
+    case monitorMessages
     case monitoring
     case noCodeYet
     case noCodeSubtitle
@@ -61,7 +63,11 @@ public enum OTPilotLocalizationKey: Sendable {
     case openAccessibility
     case openAtLogin
     case openFullDiskAccess
+    case openSettings
+    case options
     case permissions
+    case pressEnterAfterPaste
+    case pressEnterAfterPasteHelp
     case quit
     case reset
     case codesUnit
@@ -130,6 +136,8 @@ public enum OTPilotLocalization {
             return "After copying a detected code, OTPilot sends Command-V to the focused editable field when Accessibility is allowed."
         case .copy:
             return "Copy"
+        case .copyVerificationCode:
+            return "Copy Code"
         case .detectedCodes:
             return "Detected codes"
         case .detection:
@@ -150,6 +158,8 @@ public enum OTPilotLocalization {
             return "System"
         case .messagesDatabaseNotFound:
             return "Messages database not found"
+        case .monitorMessages:
+            return "Monitor Messages"
         case .monitoring:
             return "Monitoring"
         case .noCodeYet:
@@ -166,8 +176,16 @@ public enum OTPilotLocalization {
             return "Open OTPilot at login"
         case .openFullDiskAccess:
             return "Open Full Disk Access"
+        case .openSettings:
+            return "Open Settings"
+        case .options:
+            return "Options"
         case .permissions:
             return "Permissions"
+        case .pressEnterAfterPaste:
+            return "Press Enter after paste"
+        case .pressEnterAfterPasteHelp:
+            return "After auto paste succeeds, OTPilot presses Return in the focused field."
         case .codesUnit:
             return "codes"
         case .justNow:
@@ -185,7 +203,7 @@ public enum OTPilotLocalization {
         case .restoreClipboard:
             return "Restore clipboard"
         case .restoreClipboardAfterDelay:
-            return "Restore previous clipboard after 45 seconds"
+            return "Restore clipboard 45s later"
         case .restoreClipboardHelp:
             return "After copying a code, OTPilot restores your previous clipboard after 45 seconds."
         case .secondsAgo:
@@ -193,11 +211,11 @@ public enum OTPilotLocalization {
         case .settings:
             return "Settings"
         case .settingsWindowTitle:
-            return "OTPilot Settings"
+            return "About OTPilot"
         case .start:
             return "Start"
         case .startMonitoringOnLaunch:
-            return "Start monitoring when OTPilot opens"
+            return "Monitor on Launch"
         case .startup:
             return "Startup"
         case .stop:
@@ -231,6 +249,8 @@ public enum OTPilotLocalization {
             return "识别到验证码并复制后，如果当前焦点是可编辑输入框，OTPilot 会自动发送 Command-V 粘贴。"
         case .copy:
             return "复制"
+        case .copyVerificationCode:
+            return "复制验证码"
         case .detectedCodes:
             return "已识别的验证码"
         case .detection:
@@ -251,6 +271,8 @@ public enum OTPilotLocalization {
             return "跟随系统"
         case .messagesDatabaseNotFound:
             return "找不到信息数据库"
+        case .monitorMessages:
+            return "监测信息"
         case .monitoring:
             return "正在监测"
         case .noCodeYet:
@@ -267,8 +289,16 @@ public enum OTPilotLocalization {
             return "登录时打开 OTPilot"
         case .openFullDiskAccess:
             return "打开完全磁盘访问权限"
+        case .openSettings:
+            return "打开设置"
+        case .options:
+            return "选项"
         case .permissions:
             return "权限"
+        case .pressEnterAfterPaste:
+            return "粘贴后按回车"
+        case .pressEnterAfterPasteHelp:
+            return "自动粘贴成功后，OTPilot 会在当前输入框发送一次回车。"
         case .codesUnit:
             return "次"
         case .justNow:
@@ -286,7 +316,7 @@ public enum OTPilotLocalization {
         case .restoreClipboard:
             return "恢复剪贴板"
         case .restoreClipboardAfterDelay:
-            return "45 秒后恢复原剪贴板"
+            return "45 秒后恢复剪贴板"
         case .restoreClipboardHelp:
             return "复制验证码后，OTPilot 会在 45 秒后把之前的剪贴板内容恢复回来。"
         case .secondsAgo:
@@ -294,11 +324,11 @@ public enum OTPilotLocalization {
         case .settings:
             return "设置"
         case .settingsWindowTitle:
-            return "OTPilot 设置"
+            return "关于 OTPilot"
         case .start:
             return "开始"
         case .startMonitoringOnLaunch:
-            return "打开 OTPilot 时开始监测"
+            return "打开即监测"
         case .startup:
             return "启动"
         case .stop:

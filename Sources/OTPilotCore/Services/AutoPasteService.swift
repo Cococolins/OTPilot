@@ -34,7 +34,7 @@ public final class AutoPasteService: ObservableObject {
         AXIsProcessTrustedWithOptions(options)
     }
 
-    public func pasteIntoFocusedField(_ text: String) -> PasteResult {
+    public func pasteIntoFocusedField(_ text: String, pressEnterAfterPaste: Bool = false) -> PasteResult {
         guard isAccessibilityTrusted else {
             logger.warning("Auto paste skipped: Accessibility is not trusted")
             return .accessibilityNotTrusted
@@ -50,7 +50,21 @@ public final class AutoPasteService: ObservableObject {
             return .noFocusedEditableElement
         }
 
-        return postCommandV() ? .postedCommandV : .failed
+        guard postCommandV() else {
+            return .failed
+        }
+
+        if pressEnterAfterPaste {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) { [weak self, logger] in
+                if self?.postKey(0x24) == true {
+                    logger.info("Posted Return event after paste")
+                } else {
+                    logger.warning("Auto paste skipped Return: failed to create keyboard events")
+                }
+            }
+        }
+
+        return .postedCommandV
     }
 
     private func focusedElementInFrontmostApplication() -> AXUIElement? {
@@ -101,6 +115,20 @@ public final class AutoPasteService: ObservableObject {
         vDown.post(tap: .cghidEventTap)
         vUp.post(tap: .cghidEventTap)
         logger.info("Posted Command-V event")
+        return true
+    }
+
+    private func postKey(_ virtualKey: CGKeyCode) -> Bool {
+        let source = CGEventSource(stateID: .hidSystemState)
+        guard
+            let keyDown = CGEvent(keyboardEventSource: source, virtualKey: virtualKey, keyDown: true),
+            let keyUp = CGEvent(keyboardEventSource: source, virtualKey: virtualKey, keyDown: false)
+        else {
+            return false
+        }
+
+        keyDown.post(tap: .cghidEventTap)
+        keyUp.post(tap: .cghidEventTap)
         return true
     }
 

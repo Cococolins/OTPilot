@@ -13,6 +13,7 @@ It is designed for browsers like Dia, Chrome, and Arc where macOS does not provi
 - Extracts common English and Chinese OTP formats.
 - Copies detected codes to the clipboard.
 - Optional auto paste using Command-V.
+- Optional Return key press after auto paste.
 - Optional clipboard restore after 45 seconds.
 - Notification feedback when a code is copied and still needs to be pasted.
 - Optional launch at login.
@@ -44,7 +45,7 @@ security find-identity -v -p codesigning
 The recommended install path is the DMG. It contains a prebuilt app, so you do not need Xcode, Swift, or Terminal.
 
 1. Open the [latest release](https://github.com/Cococolins/OTPilot/releases/latest).
-2. Download `OTPilot-v1.5.1.dmg`.
+2. Download `OTPilot-v1.7.0.dmg`.
 3. Open the DMG.
 4. Drag `OTPilot.app` to the `Applications` shortcut.
 5. Open OTPilot from `/Applications`.
