@@ -1007,7 +1007,7 @@
         <div class="hero-copy">
           <h1 data-i18n="hero.title">让验证码自动填充。</h1>
           <p data-i18n="hero.copy">
-            OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。
+            OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到光标所在的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。
           </p>
           <div class="actions">
             <a class="button primary" href="https://github.com/Cococolins/OTPilot/releases/latest">
@@ -1160,8 +1160,8 @@
 
       <section class="section workflow" id="workflow">
         <div class="section-head">
-          <h2 data-i18n="workflow.title">它做的事情很少，也正因为如此可靠。</h2>
-          <p data-i18n="workflow.copy">OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。</p>
+          <h2 data-i18n="workflow.title">只做核心功能，因此足够可靠。</h2>
+          <p data-i18n="workflow.copy">OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下交给 macOS 剪贴板和当前应用自己处理。</p>
         </div>
         <div class="steps">
           <article class="step">
@@ -1171,8 +1171,8 @@
           </article>
           <article class="step">
             <div class="step-number">2</div>
-            <h3 data-i18n="step.extract.title">提取候选验证码</h3>
-            <p data-i18n="step.extract.copy">解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，并按质量排序。</p>
+            <h3 data-i18n="step.extract.title">提取验证码</h3>
+            <p data-i18n="step.extract.copy">解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，选出最有可能是验证码的那条。</p>
           </article>
           <article class="step">
             <div class="step-number">3</div>
@@ -1241,13 +1241,13 @@
 
       <section class="section install" id="install">
         <div class="section-head">
-          <h2 data-i18n="install.title">下载 DMG，拖进 Applications。</h2>
+          <h2 data-i18n="install.title">下载 DMG，拖进「应用程序」。</h2>
           <p data-i18n="install.copy">OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。使用前请确认 iPhone 已为这台 Mac 打开「短信转发」，或已经同步 iMessage。</p>
         </div>
         <div class="install-layout">
           <article class="install-card">
             <h3 data-i18n="install.users.title">给普通用户</h3>
-            <p data-i18n="install.users.copy">下载 release 里的 `OTPilot-v1.7.0.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。</p>
+            <p data-i18n="install.users.copy">在最新发布页下载 `OTPilot-v1.7.0.dmg`，打开后把 `OTPilot.app` 拖进「应用程序」。Apple Silicon 和 Intel Mac 都支持。</p>
             <a class="mini-link" href="https://github.com/Cococolins/OTPilot/releases/latest">
               <span data-i18n="install.release">打开最新 release</span>
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1270,7 +1270,7 @@ make dmg</code>
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <span data-i18n="footer.license">OTPilot is released under the MIT License.</span>
+        <span data-i18n="footer.license">OTPilot 以 MIT License 发布。</span>
         <div class="footer-links">
           <a href="https://github.com/Cococolins/OTPilot">GitHub</a>
           <a data-readme-link href="https://github.com/Cococolins/OTPilot/blob/main/README.zh-CN.md">README</a>
@@ -1289,7 +1289,7 @@ make dmg</code>
           "nav.privacy": "权限",
           "nav.install": "安装",
           "hero.title": "让验证码自动填充。",
-          "hero.copy": "OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到当前聚焦的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。",
+          "hero.copy": "OTPilot 是一个 macOS 菜单栏小工具。它读取本机 Messages 里的新短信验证码，复制到剪贴板，并可选择粘贴到光标所在的输入框，给 Dia、Chrome、Arc 带来接近 Safari 的体验。",
           "hero.primary": "下载 DMG",
           "hero.secondary": "查看 GitHub",
           "note.local.title": "本机处理",
@@ -1310,12 +1310,12 @@ make dmg</code>
           "panel.fullDisk": "完全磁盘访问权限",
           "panel.accessibility": "辅助功能",
           "panel.settings": "设置",
-          "workflow.title": "它做的事情很少，也正因为如此可靠。",
-          "workflow.copy": "OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下的交给 macOS 剪贴板和当前应用的粘贴行为。",
+          "workflow.title": "只做核心功能，因此足够可靠。",
+          "workflow.copy": "OTPilot 不尝试接管浏览器，也不在网页里注入脚本。它只在新消息到达时判断验证码，剩下交给 macOS 剪贴板和当前应用自己处理。",
           "step.watch.title": "监测 Messages",
           "step.watch.copy": "应用启动后从最新消息开始读取，只处理之后进入 `~/Library/Messages/chat.db` 的 SMS / iMessage 记录。",
-          "step.extract.title": "提取候选验证码",
-          "step.extract.copy": "解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，并按质量排序。",
+          "step.extract.title": "提取验证码",
+          "step.extract.copy": "解析器先找验证码关键词，再枚举附近 4-8 位候选，过滤 URL、日期和时间，选出最有可能是验证码的那条。",
           "step.paste.title": "复制，或粘贴",
           "step.paste.copy": "检测成功后自动复制到剪贴板。若开启 Auto paste 且当前焦点是可编辑输入框，它会发送 Command-V。",
           "privacy.title": "权限保持透明。",
@@ -1328,14 +1328,14 @@ make dmg</code>
           "privacy.notifications.copy": "可选。只在验证码已复制但没有自动粘贴时提示，不展示验证码本身或发件人。",
           "privacy.source.title": "代码开源",
           "privacy.source.copy": "代码可以直接审查。当前应用没有网络同步或分析逻辑；短信解析、复制和粘贴都在本机完成。",
-          "install.title": "下载 DMG，拖进 Applications。",
+          "install.title": "下载 DMG，拖进「应用程序」。",
           "install.copy": "OTPilot 现在提供预构建 DMG，普通用户不需要 Xcode。使用前请确认 iPhone 已为这台 Mac 打开「短信转发」，或已经同步 iMessage。",
           "install.users.title": "给普通用户",
-          "install.users.copy": "下载 release 里的 `OTPilot-v1.7.0.dmg`，打开后把 `OTPilot.app` 拖进 Applications。Apple Silicon 和 Intel Mac 都支持。",
+          "install.users.copy": "在最新发布页下载 `OTPilot-v1.7.0.dmg`，打开后把 `OTPilot.app` 拖进「应用程序」。Apple Silicon 和 Intel Mac 都支持。",
           "install.release": "打开最新 release",
           "install.terminal.title": "给 Terminal 用户",
           "install.terminal.copy": "本机需要 Xcode 或 Apple Command Line Tools。`make dmg` 默认构建 Apple Silicon + Intel universal app。",
-          "footer.license": "OTPilot is released under the MIT License."
+          "footer.license": "OTPilot 以 MIT License 发布。"
         },
         en: {
           metaTitle: "OTPilot - SMS code helper for macOS",
