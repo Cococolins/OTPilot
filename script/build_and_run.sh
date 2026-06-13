@@ -4,8 +4,8 @@ set -euo pipefail
 MODE="${1:-run}"
 APP_NAME="OTPilot"
 BUNDLE_ID="${BUNDLE_ID:-app.otpilot.OTPilot}"
-APP_VERSION="${APP_VERSION:-1.7.0}"
-BUILD_NUMBER="${BUILD_NUMBER:-9}"
+APP_VERSION="${APP_VERSION:-1.7.1}"
+BUILD_NUMBER="${BUILD_NUMBER:-10}"
 MIN_SYSTEM_VERSION="13.0"
 BUILD_CONFIGURATION="${BUILD_CONFIGURATION:-debug}"
 BUILD_ARCHS="${BUILD_ARCHS:-}"
@@ -94,6 +94,8 @@ cat >"$INFO_PLIST" <<PLIST
   <string>AppIcon</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
+  <key>LSUIElement</key>
+  <true/>
   <key>LSMinimumSystemVersion</key>
   <string>$MIN_SYSTEM_VERSION</string>
   <key>NSPrincipalClass</key>

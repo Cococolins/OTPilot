@@ -8,7 +8,7 @@ public struct OTPParser {
 
     public init() {
         keywordPattern = try! NSRegularExpression(
-            pattern: #"(?i)(?:\b(code|verification|verify|passcode|otp|pin|security|login|sign[\s-]?in|auth|authentication|confirm|2fa|mfa|one[-\s]?time)\b|验证码|驗證碼|校验码|校驗碼|动态码|動態碼|安全码|安全碼|驗證|验证|校验|校驗|短信登录|短信登入|登录|登入|登錄|登陆|免密|一次性|動態密碼|动态密码)"#,
+            pattern: #"(?i)(?:\b(code|verification|verify|passcode|otp|pin|security|login|sign[\s-]?in|auth|authentication|confirm|2fa|mfa|one[-\s]?time)\b|验证码|驗證碼|校验码|校驗碼|动态码|動態碼|安全码|安全碼|口令|動態口令|动态口令|驗證|验证|校验|校驗|短信登录|短信登入|登录|登入|登錄|登陆|免密|一次性|動態密碼|动态密码)"#,
             options: [.caseInsensitive]
         )
         candidatePatterns = [
