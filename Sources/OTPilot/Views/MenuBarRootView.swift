@@ -134,7 +134,7 @@ struct MenuBarRootView: View {
 
     private var monitoringBinding: Binding<Bool> {
         Binding {
-            monitor.state == .monitoring
+            monitor.isMonitoring
         } set: { isMonitoring in
             if isMonitoring {
                 monitor.start()

@@ -23,6 +23,7 @@ public final class MessagesStore: @unchecked Sendable {
         public let rowID: Int64
         public let text: String
         public let sender: String
+        public let receivedAt: Date
     }
 
     private let databaseURL: URL
@@ -68,7 +69,8 @@ public final class MessagesStore: @unchecked Sendable {
                 SELECT
                     message.ROWID,
                     message.text,
-                    COALESCE(handle.uncanonicalized_id, handle.id, 'Unknown') AS sender
+                    COALESCE(handle.uncanonicalized_id, handle.id, 'Unknown') AS sender,
+                    message.date
                 FROM message
                 LEFT JOIN handle ON message.handle_id = handle.ROWID
                 WHERE message.ROWID > ?
@@ -96,7 +98,18 @@ public final class MessagesStore: @unchecked Sendable {
                 let rowID = sqlite3_column_int64(statement, 0)
                 let text = sqlite3_column_text(statement, 1).map { String(cString: $0) } ?? ""
                 let sender = sqlite3_column_text(statement, 2).map { String(cString: $0) } ?? "Unknown"
-                messages.append(Message(rowID: rowID, text: text, sender: sender))
+                let dateNanoseconds = sqlite3_column_int64(statement, 3)
+                let receivedAt = Date(
+                    timeIntervalSinceReferenceDate: TimeInterval(dateNanoseconds) / 1_000_000_000
+                )
+                messages.append(
+                    Message(
+                        rowID: rowID,
+                        text: text,
+                        sender: sender,
+                        receivedAt: receivedAt
+                    )
+                )
             }
 
             return messages

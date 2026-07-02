@@ -5,6 +5,7 @@ import os
 @MainActor
 public final class MessageMonitor: ObservableObject {
     @Published public private(set) var state: MonitorState = .idle
+    @Published public private(set) var isMonitoring = false
     @Published public private(set) var lastDetection: DetectedOTP?
     @Published public private(set) var recentDetections: [DetectedOTP] = []
     @Published public private(set) var detectedCount: Int
@@ -37,8 +38,14 @@ public final class MessageMonitor: ObservableObject {
     private let notifications: NotificationService
     private let userDefaults: UserDefaults
     private let logger = Logger(subsystem: "app.otpilot.OTPilot", category: "MessageMonitor")
+    private static let pollInterval: TimeInterval = 1.2
+    private static let backlogPollInterval: TimeInterval = 0.05
+    private static let maximumRetryInterval: TimeInterval = 30
+    private static let messageBatchLimit = 50
+    private static let maximumMessageAge: TimeInterval = 5 * 60
     private var timer: Timer?
     private var lastRowID: Int64
+    private var consecutivePollFailures = 0
 
     public init(
         store: MessagesStore = MessagesStore(),
@@ -71,7 +78,7 @@ public final class MessageMonitor: ObservableObject {
     }
 
     public func start() {
-        guard timer == nil else {
+        guard !isMonitoring else {
             return
         }
 
@@ -80,48 +87,65 @@ public final class MessageMonitor: ObservableObject {
             return
         }
 
-        if lastRowID == 0 {
-            do {
-                lastRowID = try store.latestRowID()
-                saveLastRowID()
-            } catch {
-                state = state(for: error)
-                return
-            }
-        }
-
+        isMonitoring = true
         state = .monitoring
+        logger.info("Monitoring started; cursor rowID \(self.lastRowID, privacy: .public)")
         notifications.requestPermission()
         poll()
-
-        timer = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.poll()
-            }
-        }
     }
 
     public func stop() {
         timer?.invalidate()
         timer = nil
+        isMonitoring = false
+        consecutivePollFailures = 0
         state = .idle
+        logger.info("Monitoring stopped")
     }
 
     public func poll() {
-        guard state == .monitoring else {
+        guard isMonitoring else {
             return
         }
 
         do {
-            let messages = try store.incomingMessages(after: lastRowID)
+            if lastRowID == 0 {
+                lastRowID = try store.latestRowID()
+                saveLastRowID()
+                logger.info("Initialized cursor at rowID \(self.lastRowID, privacy: .public)")
+            }
+
+            let messages = try store.incomingMessages(
+                after: lastRowID,
+                limit: Self.messageBatchLimit
+            )
             for message in messages {
                 process(message)
                 lastRowID = max(lastRowID, message.rowID)
             }
             saveLastRowID()
+
+            if consecutivePollFailures > 0 {
+                logger.info("Message polling recovered after \(self.consecutivePollFailures, privacy: .public) failures")
+            }
+            consecutivePollFailures = 0
+            state = .monitoring
+
+            let nextInterval = messages.count == Self.messageBatchLimit
+                ? Self.backlogPollInterval
+                : Self.pollInterval
+            scheduleNextPoll(after: nextInterval)
         } catch {
+            consecutivePollFailures += 1
             state = state(for: error)
-            stopTimerOnly()
+            let retryInterval = min(
+                Self.maximumRetryInterval,
+                Self.pollInterval * pow(2, Double(min(consecutivePollFailures, 5)))
+            )
+            logger.error(
+                "Message polling failed; retrying in \(retryInterval, privacy: .public) seconds: \(error.localizedDescription, privacy: .public)"
+            )
+            scheduleNextPoll(after: retryInterval)
         }
     }
 
@@ -129,7 +153,8 @@ public final class MessageMonitor: ObservableObject {
         do {
             lastRowID = try store.latestRowID()
             saveLastRowID()
-            state = timer == nil ? .idle : .monitoring
+            consecutivePollFailures = 0
+            state = isMonitoring ? .monitoring : .idle
         } catch {
             state = state(for: error)
         }
@@ -167,6 +192,14 @@ public final class MessageMonitor: ObservableObject {
             return
         }
 
+        let messageAge = Date().timeIntervalSince(message.receivedAt)
+        guard Self.isMessageRecent(message) else {
+            logger.info(
+                "Ignored stale OTP candidate rowID \(message.rowID, privacy: .public); ageSeconds=\(Int(messageAge), privacy: .public)"
+            )
+            return
+        }
+
         let detection = DetectedOTP(code: code, sender: message.sender, rowID: message.rowID)
 
         lastDetection = detection
@@ -184,6 +217,10 @@ public final class MessageMonitor: ObservableObject {
         if pasteResult.shouldShowCopiedNotification {
             notifications.showCopiedCode(detection)
         }
+    }
+
+    static func isMessageRecent(_ message: MessagesStore.Message, now: Date = Date()) -> Bool {
+        now.timeIntervalSince(message.receivedAt) <= maximumMessageAge
     }
 
     private func state(for error: Error) -> MonitorState {
@@ -205,9 +242,19 @@ public final class MessageMonitor: ObservableObject {
         return .databaseError(error.localizedDescription)
     }
 
-    private func stopTimerOnly() {
+    private func scheduleNextPoll(after interval: TimeInterval) {
+        guard isMonitoring else {
+            return
+        }
+
         timer?.invalidate()
-        timer = nil
+        let timer = Timer(timeInterval: interval, repeats: false) { [weak self] _ in
+            Task { @MainActor in
+                self?.poll()
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        self.timer = timer
     }
 
     private func saveLastRowID() {

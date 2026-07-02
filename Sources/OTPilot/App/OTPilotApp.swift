@@ -17,11 +17,11 @@ struct OTPilotApp: App {
             MenuBarRootView()
                 .environmentObject(monitor)
                 .environmentObject(languageStore)
+        } label: {
+            StatusBarIconView()
                 .task {
                     monitor.startIfEnabledOnLaunch()
                 }
-        } label: {
-            StatusBarIconView()
         }
 
         Window(languageStore.string(.settingsWindowTitle), id: "about") {
