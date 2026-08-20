@@ -45,7 +45,7 @@ security find-identity -v -p codesigning
 The recommended install path is the DMG. It contains a prebuilt app, so you do not need Xcode, Swift, or Terminal.
 
 1. Open the [latest release](https://github.com/Cococolins/OTPilot/releases/latest).
-2. Download `OTPilot-v1.7.2.dmg`.
+2. Download `OTPilot-v1.7.3.dmg`.
 3. Open the DMG.
 4. Drag `OTPilot.app` to the `Applications` shortcut.
 5. Open OTPilot from `/Applications`.

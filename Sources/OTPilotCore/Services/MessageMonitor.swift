@@ -129,7 +129,9 @@ public final class MessageMonitor: ObservableObject {
                 logger.info("Message polling recovered after \(self.consecutivePollFailures, privacy: .public) failures")
             }
             consecutivePollFailures = 0
-            state = .monitoring
+            if state != .monitoring {
+                state = .monitoring
+            }
 
             let nextInterval = messages.count == Self.messageBatchLimit
                 ? Self.backlogPollInterval

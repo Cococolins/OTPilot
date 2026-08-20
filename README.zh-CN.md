@@ -45,7 +45,7 @@ security find-identity -v -p codesigning
 推荐下载 DMG。DMG 里已经包含预构建的 app，不需要安装 Xcode、Swift 或打开 Terminal。
 
 1. 打开 [latest release](https://github.com/Cococolins/OTPilot/releases/latest)。
-2. 下载 `OTPilot-v1.7.2.dmg`。
+2. 下载 `OTPilot-v1.7.3.dmg`。
 3. 打开 DMG。
 4. 把 `OTPilot.app` 拖到 `Applications` 快捷方式里。
 5. 从 `/Applications` 打开 OTPilot。
